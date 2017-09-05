@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Checkbox as Radio button</title>
+    <script>
+        
+        function fn(elem) {
+            let elems = document.getElementsByTagName("input"),
+            elemsLength = elems.length,
+            currentState = elem.checked;
+            for(i=0; i<elemsLength; i++) {
+                if(elems[i].type === "checkbox") {
+                    elems[i].checked = false;   
+                }
+            }
+            elem.checked = currentState;
+        }
+        
+    </script>
+</head>
+<body>
+    <input type="checkbox" value="1" name="radio" onclick="fn(this)">
+    <input type="checkbox" value="2" name="radio" onclick="fn(this)">
+    <input type="checkbox" value="3" name="radio" onclick="fn(this)">
+    <input type="checkbox" value="4" name="radio" onclick="fn(this)">
+    <input type="checkbox" value="5" name="radio" onclick="fn(this)">
+    <input type="checkbox" value="6" name="radio" onclick="fn(this)">
+    
+</body>
+</html>
