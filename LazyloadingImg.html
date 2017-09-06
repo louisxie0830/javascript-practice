@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LazyLoadingImg</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .container{
+            text-align: center;
+            width: 100%;
+        }
+        .img-area{
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="img-area">
+            <img class="my-photo" alt="loading" data-src="./img/javascript.png">
+        </div>
+        <div class="img-area">
+            <img class="my-photo" alt="loading" data-src="./img/javascript1.png">
+        </div>
+        <div class="img-area">
+            <img class="my-photo" alt="loading" data-src="./img/javascript2.png">
+        </div>
+        <div class="img-area">
+            <img class="my-photo" alt="loading" data-src="./img/javascript3.png">
+        </div>
+        <div class="img-area">
+            <img class="my-photo" alt="loading" data-src="./img/javascript4.png">
+        </div>
+        <div class="img-area">
+            <img class="my-photo" alt="loading" data-src="./img/javascript5.png">
+        </div>
+    </div>
+    <script>
+        function checkImgs() {
+            const imgs = Array.from(document.querySelectorAll(".my-photo"));
+            imgs.forEach(item => io.observe(item));
+        }
+
+        function loadImg(el) {
+            if (!el.src) {
+                const source = el.dataset.src;
+                el.src = source;
+            }
+        }
+
+        const io = new IntersectionObserver(ioes => {
+            ioes.forEach(ioe => {
+                const el = ioe.target;
+                const intersectionRatio = ioe.intersectionRatio;
+                if (intersectionRatio > 0 && intersectionRatio <= 1) {
+                    loadImg(el);
+                }
+                el.onload = el.onerror = () => io.unobserve(el);
+            });
+        });
+        checkImgs();
+    </script>
+</body>
+</html>
