@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Css-scroll-indicator</title>
+    <style>
+        .main {
+            margin: 0;
+            padding: 0;
+            display: block;
+            height: 30000px;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right top, #369 50%, #fff 50%);
+            background-size: 100% calc(100% - 99vh);
+        }
+
+        body:before {
+            content: '';
+            position: fixed;
+            top: 4px;
+            bottom: 0;
+            width: 100%;
+            z-index: -1;
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h1>show</h1>
+    </div>
+</body>
+
+</html>
