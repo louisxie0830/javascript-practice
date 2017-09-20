@@ -6,24 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CheckBrowser</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #os,
+        #terminal,
+        #entry {
+            box-sizing: border-box;
+            margin:20px auto;
+            max-width: 600;
+            max-height: 600px;
+            padding: 0px 100px 0px 100px;
+        }
+
+        h1 {
+            outline: 1px solid;
+        }
+        input{
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 
 <body>
     <div id="os">
-
         <h1>Current OS:</h1>
-
-        <input type="checkbox" class="os" name="ios">Ios
-        <br>
-        <input type="checkbox" class="os" name="android">Android
-        <br>
-        <input type="checkbox" class="os" name="windows">Windows
-        <br>
-        <input type="checkbox" class="os" name="macOS">Mac OS
-        <br>
-        <input type="checkbox" class="os" name="other">other
-        <br>
-
+        <div>
+            <input type="checkbox" class="os" name="ios">Ios
+        </div>
+        <div>
+            <input type="checkbox" class="os" name="android">Android
+        </div>
+        <div>
+            <input type="checkbox" class="os" name="windows">Windows
+        </div>
+        <div>
+            <input type="checkbox" class="os" name="macOS">Mac OS
+        </div>
+        <div>
+            <input type="checkbox" class="os" name="other">other
+        </div>
     </div>
 
 
@@ -31,16 +56,21 @@
 
         <h1>Current Equipment:</h1>
 
-        <input type="checkbox" class="terminal" name="iPhone">iPhone
-        <br>
-        <input type="checkbox" class="terminal" name="Android">Android手机
-        <br>
-        <input type="checkbox" class="terminal" name="Windows">PC
-        <br>
-        <input type="checkbox" class="terminal" name="Mac">Mac
-        <br>
-        <input type="checkbox" class="terminal" name="iPad">iPad
-        <br>
+        <div>
+            <input type="checkbox" class="terminal" name="iPhone">iPhone
+        </div>
+        <div>
+            <input type="checkbox" class="terminal" name="Android">Android手机
+        </div>
+        <div>
+            <input type="checkbox" class="terminal" name="Windows">PC
+        </div>
+        <div>
+            <input type="checkbox" class="terminal" name="Mac">Mac
+        </div>
+        <div>
+            <input type="checkbox" class="terminal" name="iPad">iPad
+        </div>
 
     </div>
 
@@ -49,35 +79,50 @@
 
         <h1>Current Client:</h1>
 
-        <input type="checkbox" class="entry" name="Chrome">Chrome(内核)
-        <br>
-        <input type="checkbox" class="entry" name="Firefox">Firefox
-        <br>
-        <input type="checkbox" class="entry" name="Opera">Opera
-        <br>
-        <input type="checkbox" class="entry" name="Safari">Safari
-        <br>
-        <input type="checkbox" class="entry" name="Ie11">Ie11
-        <br>
-        <input type="checkbox" class="entry" name="Ie">Ie(6-10)
-        <br>
-        <input type="checkbox" class="entry" name="Edge">Edge
-        <br>
+        <div>
+            <input type="checkbox" class="entry" name="Chrome">Chrome(内核)
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="Firefox">Firefox
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="Opera">Opera
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="Safari">Safari
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="Ie11">Ie11
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="Ie">Ie(6-10)
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="Edge">Edge
+        </div>
 
-        <input type="checkbox" class="entry" name="AndroidQQBrowser">Android-移动QQ浏览器
-        <br>
-        <input type="checkbox" class="entry" name="IosQQBrowser">Ios-移动QQ浏览器
-        <br>
-        <input type="checkbox" class="entry" name="AndroidQQ">Android-QQ
-        <br>
-        <input type="checkbox" class="entry" name="IosQQ">Ios-QQ
-        <br>
-        <input type="checkbox" class="entry" name="AndroidWeChat">Android-微信
-        <br>
-        <input type="checkbox" class="entry" name="IosWeChat">Ios-微信
-        <br>
-        <input type="checkbox" class="entry" name="WeiBo">微博
-        <br>
+        <div>
+            <input type="checkbox" class="entry" name="AndroidQQBrowser">Android-移动QQ浏览器
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="IosQQBrowser">Ios-移动QQ浏览器
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="AndroidQQ">Android-QQ
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="IosQQ">Ios-QQ
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="AndroidWeChat">Android-微信
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="IosWeChat">Ios-微信
+        </div>
+        <div>
+            <input type="checkbox" class="entry" name="WeiBo">微博
+        </div>
+
 
     </div>
     <script>
@@ -91,7 +136,7 @@
                 }
             }
         }
-        
+
         class checkBrowser {
             constructor() {
                 this.userAgent = navigator.userAgent;
