@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pulltorefresh</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .item {
+            background-color: #ccc;
+            height: 91px;
+            margin-bottom: 9px;
+        }
+
+        #ptr-instructions {
+            width: 100%;
+            height: 90px;
+            background-color: blue;
+            font-size: 20px;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="ptr-instructions">
+        <!--your loading icon here-->
+        <span class="ptr-instructions-text"></span>
+    </div>
+    <div id="main">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+        <div class="item">7</div>
+        <div class="item">8</div>
+        <div class="item">9</div>
+        <div class="item">10</div>
+        <div class="item">11</div>
+        <div class="item">12</div>
+        <div class="item">13</div>
+    </div>
+    <script>
+        (function (window) {
+            const _defaults = {
+                instructionsPullToRefresh: 'pull to refresh', // text
+                instructionsReleaseToRefresh: 'Release to refresh', //text
+                instructionsRefreshing: 'refreshing', // text
+                threshold: 60, // minimum distance required to trigger the refresh.
+                onPull: () => location.reload()
+            };
+            let _pullLengh = 0;
+            let _startLength = 0;
+            let _ptrEle = '';
+            let _ptrTextEle = '';
+            let _element = '';
+            let pullToRefresh = {
+                init: function (cfg) {
+                    Object.keys(_defaults).forEach((key) => {
+                        cfg[key] = cfg[key] || _defaults[key];
+                    });
+                    _element = document.querySelector(cfg.targetElement);
+                    _ptrEle = document.querySelector(cfg.ptrElement);
+                    _ptrTextEle = document.querySelector(cfg.ptrTextElement);
+
+                    // init style
+                    _element.style.position = 'relative';
+                    _ptrEle.style.position = 'absolute';
+                    _ptrTextEle.innerText = cfg.instructionsPullToRefresh;
+
+                    // blind event
+                    _element.addEventListener('touchstart', function (event) {
+                        _startLength = event.touches[0].pageY;
+                        // _element.removeAttribute('style');
+                        _element.style['transition'] = 'transform 0s';
+                        // 'pull to refresh'
+                        _ptrTextEle.innerText = cfg.instructionsPullToRefresh;
+                    });
+                    _element.addEventListener('touchmove', function (event) {
+                        _pullLengh = event.touches[0].pageY - _startLength;
+                        // console.log(document.body.scrollTop)
+                        if (_pullLengh > 0) {
+                            pullElement(_element, _pullLengh, cfg);
+                        }
+                    });
+                    _element.addEventListener('touchend', function (event) {
+                        // console.log(document.body.scrollTop)
+                        if (_pullLengh > cfg.threshold) {
+                            // 'refreshing'
+                            _ptrTextEle.innerText = cfg.instructionsRefreshing;
+                            cfg.onPull();
+                            _pullLengh = 0;
+                        }
+                        _element.style['transition'] = 'transform 0.6s ease';
+                        _element.style['transform'] = 'translate(0, 0px)';
+                    });
+                }
+            }
+
+            let pullElement = function (element, length, cfg) {
+                if (length < _ptrEle.offsetHeight) {
+                    element.style['transform'] = 'translate(0, ' + length + 'px)';
+                    if (length > cfg.threshold) {
+                        // 'release to fresh'
+                        _ptrTextEle.innerText = cfg.instructionsReleaseToRefresh;
+                    }
+                }
+            };
+            window.pullToRefresh = pullToRefresh;
+        })(window);
+    </script>
+    <script>
+        pullToRefresh.init({
+            // required
+            ptrElement: '#ptr-instructions', // 'pull to refresh' intructions element
+            ptrTextElement: '.ptr-instructions-text', // intructions' text element
+            targetElement: '#main', // target element that will be dragged and refreshed
+            // optional
+            instructionsPullToRefresh: 'pull to refresh', // text
+            instructionsReleaseToRefresh: 'Release to refresh', //text
+            instructionsRefreshing: 'refreshing', // text
+            threshold: 60, // minimum distance required to trigger the onPull callback
+            onPull: function () { // callback fn
+                // alert('onPull fired');
+                console.log('onPull fired');
+            }
+        });
+    </script>
+</body>
+
+</html>
