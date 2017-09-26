@@ -18,6 +18,7 @@
   "homepage": "https://github.com/bfgh2678/javascript-practice#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^3.1.0"
   }

@@ -1,1 +1,1 @@
-.bd{max-height:0;overflow:hidden;transition:all 1s ease-out}li:hover .bd{max-height:600px;transition-timing-function:ease-in}
+.bd{max-height:0;overflow:hidden;-webkit-transition:all 1s ease-out;transition:all 1s ease-out}li:hover .bd{max-height:600px;-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in}
