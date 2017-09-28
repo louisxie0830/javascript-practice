@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        table {
+            display: none;
+            width: 300px;
+            margin: auto;
+            border: 1px solid #fa0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="table">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Year</th>
+        </tr>
+    </table>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+
+            const MEMBER_INFO =
+                [{
+                    name: 'Louis',
+                    year: '25'
+                }, {
+                    name: 'Yun',
+                    year: '27'
+                }],
+                getDataInfo = index => {
+                    return MEMBER_INFO[index - 1];
+                };
+            $.each(MEMBER_INFO, (index, list) => {
+                $('#table').append(`<tr><td>${index + 1}</td><td>${list.name}</td><td>${list.year}</td></tr>`);
+                $('table').css({
+                    'display':'block'
+                })
+            });
+            $('td').on('click', function (event) {
+                let index = $(this).parent().index();
+                // this get table info
+                console.log(getDataInfo(index));
+            })
+        });
+    </script>
+</body>
+
+</html>
