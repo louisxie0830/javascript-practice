@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ValidURL</title>
+</head>
+
+<body>
+    <script>
+        function ValidURL(s) {
+            var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            return regexp.test(s);
+        }
+        ValidURL('http://forums.devshed.com/javascript-development-115/regexp-match-url-pattern-493764.html') && alert('is http');
+
+    </script>
+</body>
+
+</html>
