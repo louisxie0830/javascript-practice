@@ -6,12 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CustomizeVideo</title>
+    <style>
+        * {
+            /*outline:1px solid #f00;*/
+        }
+
+        #skin {
+            border-radius: 5px;
+            width: 700px;
+            margin: 50px auto;
+            padding: 10px;
+            text-align: center;
+            background: #555;
+        }
+
+        nav {
+            margin: 10px;
+        }
+
+        #buttons {
+            width: 100%;
+        }
+
+        .btn {
+            margin: 0 10px;
+            width: 100px;
+            border-radius: 3px;
+            padding: 5px;
+            background: #fff;
+            font: normal 20px arial;
+        }
+
+        #defaultBar {
+            border: 1px solid #eee;
+            width: 592px;
+            height: 16px;
+            padding: 2px;
+            margin: auto;
+            margin-top: 5px;
+        }
+
+        #progressBar {
+            width: 0px;
+            height: 16px;
+            background: #eee;
+        }
+    </style>
 </head>
 
 <body>
     <div id="skin">
         <video width="640" id="myMovie">
-            <source src="videos/videoplayback.mp4">
+            <source src="video/videoplayback.mp4">
         </video>
         <nav>
             <div id="buttons">
@@ -29,7 +75,70 @@
         </nav>
     </div>
     <script>
-        
+        const $ = id => document.getElementById(id);
+        function init() {
+            let barSize = 592,
+                volume = 1;
+            const
+                myMovie = $('myMovie'),
+                playButton = $('playButton'),
+                stopButton = $('stopButton'),
+                upButton = $('upButton'),
+                downButton = $('downButton'),
+                muteButton = $('muteButton'),
+                defaultBar = $('defaultBar'),
+                progressBar = $('progressBar');
+        }
+        function PlayOrPause() {
+            if (!myMovie.paused && !myMovie.ended) {
+                myMovie.pause();
+                playButton.innerHTML = 'Play';
+            } else {
+                myMovie.play();
+                playButton.innerHTML = 'Pause';
+                setInterval(update, 500)
+            }
+        }
+
+        function Stop() {
+            myMovie.currentTime = 0;
+            myMovie.pause();
+        }
+
+        function Up() {
+            if (volume <= 1) {
+                volume += .1;
+                myMovie.volume = volume;
+            } else {
+                volume = 1;
+            }
+        }
+
+        function Down() {
+            if (volume >= 0) {
+                volume -= .1;
+                myMovie.volume = volume;
+            } else {
+                volume = 0;
+            }
+        }
+
+        function Mute() {
+            if (!myMovie.volume <= 0) {
+                myMovie.volume = 0;
+                muteButton.innerHTML = 'Sound';
+            } else {
+                myMovie.volume = volume;
+                muteButton.innerHTML = 'Mute';
+            }
+        }
+
+        function Update() {
+            if(!myMovie.ended){
+                let size = barSize / myMovie.duration * myMovie.currentTime;
+            }
+        }
+        init();
     </script>
 </body>
 
