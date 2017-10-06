@@ -51,8 +51,8 @@
     <script>
         const CloseTime = 2000,
             banner = document.querySelector('.popup');
-        let setTimeoutId = null;
-        let scrolling = false;
+        let setTimeoutId = null,
+            scrolling = false;
         window.addEventListener('scroll', () => {
             scrolling = true;
             if (!!setTimeoutId) {
