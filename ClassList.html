@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ClassList</title>
+    <style>
+        .content {
+            box-sizing: border-box;
+            width: 350px;
+            margin: auto;
+        }
+
+        .content>button {
+            display: inline-block;
+            border: none;
+            width: 100px;
+            height: 100px;
+        }
+
+        .active {
+            background: #fa0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <button type="button" class="active"></button>
+        <button type="button"></button>
+        <button type="button"></button>
+    </div>
+    <script>
+        let buttonList = document.querySelectorAll('button');
+
+        buttonList[0].addEventListener('click', function (e) {
+            this.classList.add('active');
+            buttonList[1].classList.remove('active');
+            buttonList[2].classList.remove('active');
+        }, false);
+        buttonList[1].addEventListener('click', function (e) {
+            this.classList.add('active');
+            buttonList[0].classList.remove('active');
+            buttonList[2].classList.remove('active');
+        }, false);
+        buttonList[2].addEventListener('click', function (e) {
+            this.classList.add('active');
+            buttonList[0].classList.remove('active');
+            buttonList[1].classList.remove('active');
+        }, false);
+
+    </script>
+</body>
+
+</html>
