@@ -59,8 +59,8 @@
 
         const io = new IntersectionObserver(ioes => {
             ioes.forEach(ioe => {
-                const el = ioe.target;
-                const intersectionRatio = ioe.intersectionRatio;
+                let el = ioe.target;
+                let intersectionRatio = ioe.intersectionRatio;
                 if (intersectionRatio > 0 && intersectionRatio <= 1) {
                     loadImg(el);
                 }
