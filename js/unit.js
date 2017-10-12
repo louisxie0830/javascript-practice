@@ -151,8 +151,9 @@ function checkPwd(str) {
     return nowLv;
 }
 
-
-
+function checkChinese(str) {
+    return /[\u4e00-\u9fa5]{0,15}/.test(str);
+}
 
 function randomNumber(count) {
     return Math.random().toString(count).substring(2);
