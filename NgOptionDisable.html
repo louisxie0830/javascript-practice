@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <title>NgOptionDisable</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #000;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+    </style>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container" ng-controller="myCtrl">
+        <select class="form-control" ng-model="functionPaymentMethod" ng-options="n.key as n.value disable when n.disabled for n in paymentMethod"
+            required>
+            <option value="" disabled>请选择</option>
+        </select>
+    </div>
+    <script>
+        const app = angular.module('myApp', []);
+        app.controller('myCtrl', ['$scope', ($scope) => {
+            $scope.paymentMethod = [
+                { key: '100', value: '100' },
+                { key: '200', value: '200' },
+                { key: '300', value: '300' }];
+            angular.forEach($scope.paymentMethod, (item, index) => {
+                if (item.key === '300') {
+                    item.disabled = true;
+                }
+            });
+        }]);
+    </script>
+</body>
+
+</html>
