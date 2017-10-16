@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RememberUser</title>
+</head>
+
+<body>
+    <div>
+        Account:
+        <input id="account" type="text" name="" value="">
+    </div>
+    <div>
+        Password:
+        <input id="password" type="password" name="" value="">
+    </div>
+    <div>
+        Remember Account
+        <input id="remember-account" type="checkbox" name="" value="">
+    </div>
+    <div>
+        <button id="send">Send</button>
+    </div>
+    <script>
+        function setCookie(value){
+            document.cookie = value;
+        }
+        const
+            account = document.getElementById('account'),
+            password = document.getElementById('password'),
+            rememberAccount = document.getElementById('remember-account'),
+            send = document.getElementById('send');
+        send.addEventListener('click', () => {
+            if (rememberAccount.checked) {
+                setCookie(account.value);
+            }
+        })
+    </script>
+</body>
+
+</html>
