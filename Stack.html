@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Stack {
+            constructor() {
+                this.container = []
+            }
+            push(ele) {
+                this.container.unshift(ele)
+            }
+            pop() {
+                return this.container.shift()
+            }
+            isEmpty() {
+                return !this.container.length
+            }
+            size() {
+                return this.container.length
+            }
+            iterator() {
+                const container = this.container
+                let current = 0
+                return {
+                    hasNext: function () {
+                        return current !== container.length
+                    },
+                    next: function () {
+                        return container[current++]
+                    }
+                }
+            }
+        }
+        var St = new Stack()
+        St.push('to')
+        St.push('be')
+        St.push('or')
+        St.push('not')
+        St.pop()
+        var iterator = St.iterator()
+        while (iterator.hasNext()) {
+            console.log(iterator.next())
+        }
+    </script>
+</body>
+
+</html>
