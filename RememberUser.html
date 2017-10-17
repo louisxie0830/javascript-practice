@@ -9,24 +9,33 @@
 </head>
 
 <body>
-    <div>
-        Account:
-        <input id="account" type="text" name="" value="">
-    </div>
-    <div>
-        Password:
-        <input id="password" type="password" name="" value="">
-    </div>
-    <div>
-        Remember Account
-        <input id="remember-account" type="checkbox" name="" value="">
-    </div>
-    <div>
-        <button id="send">Send</button>
-    </div>
+    <form novalidate>
+        <div>
+            Account:
+            <input id="account" type="text" name="" value="">
+        </div>
+        <div>
+            Password:
+            <input id="password" type="password" name="" value="">
+        </div>
+        <div>
+            Remember Account
+            <input id="remember-account" type="checkbox" name="" value="">
+        </div>
+        <div>
+            <button id="send" type="submit">Send</button>
+        </div>
+    </form>
     <script>
-        function setCookie(value){
-            document.cookie = value;
+        function setLocalStorage(account, password) {
+            localStorage.account = account;
+            localStorage.password = password;
+        }
+        function loadAccountInfo(data) {
+            if (data) {
+                account.value = data.account;
+                password.value = data.password;
+            }
         }
         const
             account = document.getElementById('account'),
@@ -35,9 +44,12 @@
             send = document.getElementById('send');
         send.addEventListener('click', () => {
             if (rememberAccount.checked) {
-                setCookie(account.value);
+                setLocalStorage(account.value, password.value);
             }
-        })
+        });
+        window.addEventListener('load', () => {
+            // loadAccountInfo(localStorage);
+        });
     </script>
 </body>
 
