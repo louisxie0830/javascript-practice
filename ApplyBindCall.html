@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Apply_Bind_Call</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        function name() {
+            this.name;
+            console.log(this.name);
+        };
+
+        // bind
+        var bindNamefunc = name.bind({ name: 'Louis by apply' }); //回傳一個新的function
+        bindNamefunc();
+        // call
+        name.call({ name: 'Louis by call' }); // 直接執行function
+        // apply
+        name.apply({ name: 'Louis by apply' }); // 直接執行function
+    </script>
+</body>
+
+</html>
