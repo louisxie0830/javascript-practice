@@ -14,14 +14,19 @@
             this.name;
             console.log(this.name);
         };
-
+        function Car(cc, width) {
+            this.name
+            console.log(this.name, cc, width);
+        }
         // bind
         var bindNamefunc = name.bind({ name: 'Louis by apply' }); //回傳一個新的function
         bindNamefunc();
         // call
         name.call({ name: 'Louis by call' }); // 直接執行function
+        Car.call({ name: '法拉利' }, 2000, 100);
         // apply
         name.apply({ name: 'Louis by apply' }); // 直接執行function
+        Car.apply({ name: '法拉利' }, [2000, 200]);
     </script>
 </body>
 
