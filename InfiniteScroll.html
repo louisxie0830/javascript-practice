@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>InfiniteScrol</title>
+    <title>InfiniteScroll</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -34,24 +34,31 @@
 <body>
     <ul id='infinite-list'></ul>
     <script>
-        var listElm = document.querySelector('#infinite-list');
+        let listElm = document.querySelector('#infinite-list');
 
         // Add 20 items.
-        var nextItem = 1;
-        var loadMore = function () {
-            for (var i = 0; i < 20; i++) {
-                var item = document.createElement('li');
+
+        let loadMore = function (nextItem) {
+            nextItem = nextItem || 1;
+            for (let i = 0; i < 20; i++) {
+                let item = document.createElement('li');
                 item.innerText = 'Item ' + nextItem++;
                 listElm.appendChild(item);
             }
         }
 
         // Detect when scrolled to bottom.
+        let timer = false;
         listElm.addEventListener('scroll', function () {
-            if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-                loadMore();
-            }
-        });
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                console.log('throttle');
+                if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+                    let notePaperList = document.querySelectorAll('li');
+                    loadMore(notePaperList.length + 1);
+                }
+            }, 300);
+        }, false);
 
         // Initially load some items.
         loadMore();
