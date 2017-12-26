@@ -34,10 +34,28 @@
 <body>
     <ul id='infinite-list'></ul>
     <script>
-        let listElm = document.querySelector('#infinite-list');
-
+        const listElm = document.querySelector('#infinite-list');
+        const throttle = (fn, delay, atleast) => {
+            let timer = null,
+                previous = null;
+            return function () {
+                let now = +new Date();
+                if (!previous) previous = now;
+                if (atleast && now - previous > atleast) {
+                    fn();
+                    // 重置上一次开始时间为本次结束时间
+                    previous = now;
+                    clearTimeout(timer);
+                } else {
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        fn();
+                        previous = null;
+                    }, delay);
+                }
+            }
+        };
         // Add 20 items.
-
         let loadMore = function (nextItem) {
             nextItem = nextItem || 1;
             for (let i = 0; i < 20; i++) {
@@ -50,14 +68,11 @@
         // Detect when scrolled to bottom.
         let timer = false;
         listElm.addEventListener('scroll', function () {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                console.log('throttle');
-                if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-                    let notePaperList = document.querySelectorAll('li');
-                    loadMore(notePaperList.length + 1);
-                }
-            }, 300);
+            if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+                let notePaperList = document.querySelectorAll('li');
+                // throttle(loadMore(notePaperList.length + 1), 200);
+                throttle(loadMore(notePaperList.length + 1), 500, 1000);
+            }
         }, false);
 
         // Initially load some items.
