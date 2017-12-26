@@ -18,6 +18,12 @@
             this.name
             console.log(this.name, cc, width);
         }
+
+        // function ArrayFunc(insertData, extraData) {
+        //     insertData = [insertData];
+        //     Array.prototype.push.apply(insertData, extraData);
+        //     console.log('Array.prototype.push.apply(insertData, extraData): ', Array.prototype.push.apply(insertData, extraData));
+        // }
         // bind
         var bindNamefunc = name.bind({ name: 'Louis by apply' }); //回傳一個新的function
         bindNamefunc();
@@ -27,6 +33,16 @@
         // apply
         name.apply({ name: 'Louis by apply' }); // 直接執行function
         Car.apply({ name: '法拉利' }, [2000, 200]);
+
+
+        // --------------------------------
+        // var ObjData = {
+        //     name: 'Louis'
+        // };
+
+        // var extraArray = [];
+        // ArrayFunc(ObjData, extraArray);
+
     </script>
 </body>
 
