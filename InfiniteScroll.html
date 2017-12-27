@@ -35,24 +35,40 @@
     <ul id='infinite-list'></ul>
     <script>
         const listElm = document.querySelector('#infinite-list');
-        const throttle = (fn, delay, atleast) => {
-            let timer = null,
-                previous = null;
-            return function () {
+        const throttle = function (fn, delay, atleast) {
+            this.fn = fn;
+            this.delay = delay;
+            this.atleast = atleast;
+            this.init();
+        };
+        throttle.prototype = {
+            init: function () {
+                this.previous = null;
+                this.timer = null;
+            },
+            detect: function (res) {
+                console.log('res: ', res);
+                res = res || 1;
                 let now = +new Date();
-                if (!previous) previous = now;
-                if (atleast && now - previous > atleast) {
-                    fn();
-                    // 重置上一次开始时间为本次结束时间
-                    previous = now;
-                    clearTimeout(timer);
+                if (!this.previous) { this.previous = now; }
+                if (now - this.previous > this.atleast) {
+                    this.atleastCond(res);
                 } else {
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        fn();
-                        previous = null;
-                    }, delay);
+                    this.timeoutCond(res);
                 }
+            },
+            atleastCond: function (res) {
+                this.fn(res);
+                this.previous = +new Date();
+            },
+            timeoutCond: function (res) {
+                let _this = this;
+
+                clearTimeout(this.timer);
+                this.timer = setTimeout(function () {
+                    _this.fn(res)
+                    _this.previous = null;
+                }, this.delay);
             }
         };
         // Add 20 items.
@@ -71,12 +87,16 @@
             if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
                 let notePaperList = document.querySelectorAll('li');
                 // throttle(loadMore(notePaperList.length + 1), 200);
-                throttle(loadMore(notePaperList.length + 1), 500, 1000);
+                // throttle(loadMore(notePaperList.length + 1), 500, 1000);
+
+                th.detect(notePaperList.length + 1);
+
             }
         }, false);
 
         // Initially load some items.
-        loadMore();
+        var th = new throttle(loadMore, 200, 1000);
+        th.detect();
     </script>
 </body>
 
