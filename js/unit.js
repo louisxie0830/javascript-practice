@@ -60,14 +60,6 @@ function replaceAll(str, AFindText, ARepText) {
     return str.replace(raRegExp, ARepText);
 }
 
-
-
-function replaceAll(str, AFindText, ARepText) {
-    raRegExp = new RegExp(AFindText, "g");
-    return str.replace(raRegExp, ARepText);
-}
-
-
 function replaceStr(str, regArr, type, ARepText) {
     var regtext = '', Reg = null, replaceText = ARepText || '*';
 
