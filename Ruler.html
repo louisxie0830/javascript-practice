@@ -230,10 +230,10 @@
         //重置标尺的初始位置
         rule.x = centerX - rule.min / rule.ratioScale;
 
-        var oP = $("#record");
+        var oP = document.getElementById('record');
 
         //钱数
-        var money = oP.val(rule.min);
+        var money = oP.value = rule.min;
 
         //起点
         var start = rule.x;
@@ -248,12 +248,11 @@
         oP.blur(function (e) {
             money = +this.value;
             if (rule.min <= money && money <= rule.max) {
-                oP.val(money);
                 rule.x = centerX - money / rule.ratioScale;
             } else {
                 checkBountry();
-                oP.val(money);
             }
+            oP.value = money;
         });
 
         canvas.addEventListener("mousedown", function (e) {
@@ -279,7 +278,7 @@
             oldX = rule.x;
 
             checkBountry();
-            oP.val(money);
+            oP.value = money;
         }
 
         //检测边界值
@@ -302,7 +301,8 @@
                     speed *= fl;
                     money = Math.floor((centerX - rule.x) * rule.ratioScale);
                     checkBountry();
-                    oP.val(money);
+                    oP.value = money;
+
                 }
             }
         }
