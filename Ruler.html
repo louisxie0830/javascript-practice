@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ruler</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #FF7777;
+            text-align: center;
+            color: #fff
+        }
+
+        .container {
+            position: relative;
+            width: 375px;
+            height: 105px;
+            margin: 50px auto;
+            overflow: hidden;
+            box-shadow: 0px 0px 50px 0px #EA4C4C;
+            text-align: center;
+            color: #fff;
+        }
+
+        input {
+            position: absolute;
+            border: none;
+            outline: none;
+            top: 0%;
+            left: 38%;
+            background: transparent;
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            color: #232855;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        canvas {
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="number" value="" id="record" />
+        <canvas id="canvas" style="background: #F6F6F6" width=375 height=105></canvas>
+    </div>
+</body>
+
+</html>
