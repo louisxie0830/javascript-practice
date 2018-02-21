@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>chat-room</title>
+    <style>
+        body {
+            background: #72b8ff;
+            font-family: helvetica, sans-serif;
+        }
+
+        .casing {
+            border: 1px solid #000;
+            width: 300px;
+            height: 550px;
+            margin: auto;
+            padding: 20px;
+            background: #333 linear-gradient(65deg, #333 60%, #444 60%, #333 100%);
+            border-radius: 20px;
+            box-shadow: 2px 2px 1px #444, 3px 3px 1px #555, 4px 4px 0px #666;
+        }
+
+        .window {
+            border: 1px solid #000;
+            border-radius: 10px;
+            background: #fff;
+            width: 100%;
+            height: calc(100% - 50px);
+            margin: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #ededed;
+            padding: 10px;
+            margin: -10px -10px 8px -10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .home-btn {
+            height: 45px;
+            width: 45px;
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 23px;
+            border: 1px solid #444;
+            background: #222;
+        }
+
+        .home-btn .hb-square {
+            background: none;
+            width: 23px;
+            height: 23px;
+            margin: 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+        }
+
+        .chat {
+            background: #72b8ff;
+            border-radius: 20px;
+            display: inline-block;
+            padding: 10px;
+            color: #fff;
+            font-weight: lighter;
+            font-size: small;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, .3);
+            margin: 5px;
+            position: relative;
+        }
+
+        .chat.u1 {
+            float: left;
+            clear: both;
+            border-top-left-radius: 0px;
+        }
+
+        .chat.u1:before {
+            content: "";
+            width: 0px;
+            height: 0px;
+            display: block;
+            border-left: 5px solid transparent;
+            border-right: 5px solid #72b8ff;
+            border-top: 5px solid #72b8ff;
+            border-bottom: 5px solid transparent;
+            position: absolute;
+            top: 0px;
+            left: -10px;
+        }
+
+        .chat.u2 {
+            float: right;
+            clear: both;
+            border-top-right-radius: 0px;
+            background: #00D025;
+        }
+
+        .chat.u2:before {
+            content: "";
+            width: 0px;
+            height: 0px;
+            display: block;
+            border-left: 5px solid #00D025;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #00D025;
+            border-bottom: 5px solid transparent;
+            position: absolute;
+            top: 0px;
+            right: -10px;
+        }
+
+        .new-chat {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            background: #ededed;
+            height: 40px;
+            left: 0px;
+            border-top: 1px solid #ddd;
+        }
+
+        .new-chat input {
+            outline: none;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 18px;
+            width: 250px;
+            height: 40px;
+            border: none;
+            display: inline-block;
+            color: #999;
+            font-weight: 100;
+            background: #ddd;
+        }
+
+        .new-chat button {
+            width: 40px;
+            height: 30px;
+            padding: 0;
+            display: inline-block;
+            border: none;
+            color: #00D025;
+            background: none;
+            position: relative;
+            top: -3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .new-chat button:active {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="casing">
+        <div class="window">
+            <div class="header">Jerry</div>
+            <div class="chats">
+                <span class="u1 chat">Hey sam, whats up?</span>
+                <span class="u2 chat">nothing here how 'bout u?</span>
+                <span class="u1 chat">I'm just heading up to your neck of the woods for some work related stuff.</span>
+                <span class="u1 chat">driveing through mcdonalds right now</span>
+                <span class="u2 chat">cool! where exactly will you be?</span>
+                <span class="u1 chat">up in the ridgway, mt. horab area</span>
+            </div>
+
+            <div class="new-chat">
+                <input type="text" id="message" />
+                <button id="send">Send</button>
+            </div>
+        </div>
+        <div class="home-btn">
+            <div class="hb-square"></div>
+        </div>
+    </div>
+    <script>
+        var send = document.getElementById('send'),
+            message = document.getElementById('message'),
+            chats = document.querySelector('.chats');
+        function appendChild(msg) {
+            clearTimeout(pushMsg);
+            var pushMsg = setTimeout(function () {
+                var para = document.createElement('span');
+                para.className = 'u2 chat';
+                var t = document.createTextNode(msg);
+                para.appendChild(t);
+                chats.appendChild(para);
+            },350);
+        }
+        send.addEventListener('click', e => {
+            if (message.value) {
+                appendChild(message.value);
+                message.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
