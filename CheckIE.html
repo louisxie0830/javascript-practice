@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>check-IE</title>
+    <script>
+        window.onload = function () {
+            function display_alert() {
+                var result = confirm("I am an alert box!!");
+                // window.location.replace('https://tw.yahoo.com/');
+                if (result) {
+                    // the user clicked ok
+                    console.log('the user clicked ok: ');
+                } else {
+                    // the user clicked cancel or closed the confirm dialog.
+                    console.log('the user clicked cancel or closed the confirm dialog.: ');
+                }
+                
+            }
+            var userAgent = navigator.userAgent;
+            if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf('MSIE') > -1 && !userAgent.indexOf("Opera") > -1) {
+                var reIE = new RegExp('MSIE (\\d+\\.\\d+);');
+                reIE.test(userAgent);
+                var IE_version = parseFloat(["$1"]);
+                var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                reIE.test(this.userAgent);
+                var fIEVersion = parseFloat(RegExp["$1"]);
+                if (fIEVersion != 7 || fIEVersion != 8) {
+                    display_alert();
+                } else {
+                    alert('hello');
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>checkIE</h1>
+</body>
+</html>
