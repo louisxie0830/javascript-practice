@@ -19,7 +19,8 @@
                     var fIEVersion = parseFloat(RegExp["$1"]);
                     return fIEVersion;
                 } else {
-                    return '';
+                    console.log('ie > 8 or other browser');
+                    return 10;
                 }
             }
         })();
