@@ -9,7 +9,7 @@
     <script>
         var checkIE = (function () {
             var userAgent = navigator.userAgent;
-            return setTimeout(() => {
+            return function () {
                 if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf('MSIE') > -1 && !userAgent.indexOf("Opera") > -1) {
                     var reIE = new RegExp('MSIE (\\d+\\.\\d+);');
                     reIE.test(userAgent);
@@ -18,12 +18,17 @@
                     reIE.test(this.userAgent);
                     var fIEVersion = parseFloat(RegExp["$1"]);
                     return fIEVersion;
+                } else {
+                    return '';
                 }
-            }, 1000);
+            }
         })();
-        window.onload = function() {
-            checkIE();
-            console.log('checkIE(): ', checkIE());
+        window.onload = function () {
+            if (checkIE() <= 8) {
+                var result = confirm("this is IE");
+                result && window.location.replace('https://tw.yahoo.com/');
+            }
+
         };
     </script>
 </head>
