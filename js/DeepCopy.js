@@ -1,4 +1,4 @@
-export function DeepCopy() {
+export function DeepCopy(o) {
     var output, v, key;
     output = Array.isArray(o) ? [] : {};
     for (key in o) {
