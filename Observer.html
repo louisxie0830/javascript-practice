@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Observer</title>
+</head>
+
+<body>
+    <script>
+        function Observer() {
+            this.handlers = [];  // observers
+        }
+
+        Observer.prototype = {
+
+            subscribe: function (fn) {
+                this.handlers.push(fn);
+            },
+
+            unsubscribe: function (fn) {
+                this.handlers = this.handlers.filter(
+                    function (item) {
+                        return item !== fn;
+                    }
+                );
+            },
+
+            fire: function (o, thisObj) {
+                console.log('thisObj: ', thisObj);
+                console.log('o: ', o);
+                console.log('this.handlers: ', this.handlers);
+                var scope = thisObj || window;
+                this.handlers.forEach(function (item) {
+                    item.call(scope, o);
+                });
+            }
+        }
+
+        // log helper
+
+        var log = (function () {
+            var log = "";
+
+            return {
+                add: function (msg) { log += msg + "\n"; },
+                show: function () { alert(log); log = ""; }
+            }
+        })();
+
+        function run() {
+
+            var clickHandler = function (item) {
+                log.add("fired: " + item);
+            };
+
+            var click = new Observer();
+
+            click.subscribe(clickHandler);
+            click.fire('event #1');
+            click.subscribe(clickHandler);
+            click.fire('event #2');
+            click.subscribe(clickHandler);
+            click.fire('event #3');
+
+            log.show();
+        }
+
+        run();
+    </script>
+</body>
+
+</html>
