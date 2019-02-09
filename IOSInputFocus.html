@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var u = navigator.userAgent;
+      var flag;
+      var myFunction;
+      var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isIOS) {
+        document.body.addEventListener('focusin', () => {
+          flag = true;
+          clearTimeout(myFunction);
+        });
+        document.body.addEventListener('focusout', () => {
+          flag = false;
+          if (!flag) {
+            myFunction = setTimeout(function() {
+              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+            }, 200);
+          } else {
+            return;
+          }
+        });
+      } else {
+        return;
+      }
+    </script>
+  </body>
+</html>
