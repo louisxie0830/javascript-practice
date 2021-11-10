@@ -16,10 +16,13 @@
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    
+    <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.9.1/vconsole.min.js"></script>
     <script>
       location.href = "https://yahoo.com.tw/?openExternalBrowser=1";
-      window.close()
+      setTimeout(() => {
+        window.close();
+        console.log('hello');
+      }, 300);
     </script>
   </body>
 </html>
