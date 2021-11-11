@@ -16,15 +16,40 @@
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <div id="appName"></div>
+    <div id="client"></div>
+    <div id="jumpToWebBank">go to Richart Web Bank</div>
     <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.9.1/vconsole.min.js"></script>
     <script>
-      const vConsole = new VConsole();
-      console.log(window);
-      location.href = "https://yahoo.com.tw/?openExternalBrowser=1";
-      setTimeout(() => {
-        window.close();
-        console.log('hello');
-      }, 300);
+      var vConsole = new VConsole();
+      var isLine = () => navigator.userAgent.indexOf("Line") > -1;
+      var isFacebook = () => navigator.userAgent.indexOf("FBAV") > -1 || navigator.userAgent.indexOf("FBAN") > -1;
+      var isAndroid = () => navigator.userAgent.indexOf("Android") > -1;
+      var isiOS = () => !!navigator.platform.match(/iPhone|iPod|iPad/);
+      var appName = document.querySelector('#appName');
+      var client = document.querySelector('#client');
+      var jumpToWebBankBtn = document.querySelector('#jumpToWebBank');
+      if(isLine()) {
+        appName.innerHTML = 'Line';
+      } else if(isFacebook()) {
+        appName.innerHTML = 'Facebook';
+      } else {
+        appName.innerHTML = 'not found';
+      }
+      if(isAndroid()) {
+        client.innerHTML = 'Android';
+      } else if(isiOS()) {
+        client.innerHTML = 'iOS';
+      } else {
+        client.innerHTML = 'not found';
+      }
+      jumpToWebBankBtn.addEventListener('click', () => {
+        if(isLine()) {
+          location.href = "https://richart.tw/WebBank/users/login?openExternalBrowser=1";    
+        } else {
+          window.open('https://richart.tw/WebBank/users/login');
+        }
+      }, false);
     </script>
   </body>
 </html>
