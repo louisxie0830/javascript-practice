@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IOS Input Keyboard</title>
+</head>
+
+<body>
+    <div class="list-wrap">
+        <div class="title"><span>Name</span></div>
+        <div class="content">
+            <input class="content-input" type="text"/>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const $contentInput = document.querySelector(".content-input");
+            $contentInput.addEventListener('blur', function () {
+                let u = navigator.userAgent, app = navigator.appVersion;
+                let isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+                if (isIOS) {
+                    setTimeout(() => {
+                        const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0
+                        window.scrollTo(0, Math.max(scrollHeight - 1, 0))
+                    }, 200);
+                }
+            }, false);
+        });
+    </script>
+</body>
+
+</html>
