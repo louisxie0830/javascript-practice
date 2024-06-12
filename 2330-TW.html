@@ -1,0 +1,2495 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .line {
+        fill: none;
+        stroke: red;
+        stroke-width: 2px;
+    }
+
+    .axis text {
+        fill: white;
+    }
+
+    .axis path,
+    .axis line {
+        stroke: grey;
+        stroke-dasharray: 2;
+    }
+
+    .grid line {
+        stroke: grey;
+        stroke-dasharray: 2;
+    }
+
+    .grid path {
+        stroke-width: 0;
+    }
+
+    .tooltip {
+        position: absolute;
+        background: #333;
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+        pointer-events: none;
+        opacity: 0.8;
+    }
+
+    .container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        padding-top: 10px;
+    }
+
+    .hover-line {
+        stroke: white;
+        stroke-width: 1px;
+        stroke-dasharray: 2, 2;
+        pointer-events: none;
+    }
+    .card {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #111;
+        border-radius: 5px
+
+    }
+
+    .card-name {
+        font-size: 1rem;
+        margin-left: 25px;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+
+    .nav-link {
+        font-size: .875rem;
+        padding: 5px 3px;
+        cursor: pointer;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-name">2330TW-股價走勢</div>    
+            <div class="card-grid__ctrl">
+                <div class="nav nav-tabs">
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >1M</button>
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >6M</button>
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >1Y</button>
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >3Y</button>
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >5Y</button>
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >全部</button>
+                    <button
+                        class="nav-link"
+                        type="button"
+                    >今年迄今</button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="chart"></div>
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        let data = [{
+            "date": "2023-06-12",
+            "open": 574.0,
+            "high": 574.0,
+            "low": 571.0,
+            "close": 574.0,
+            "adjClose": 562.575562,
+            "volume": 26392389.0
+        },
+        {
+            "date": "2023-06-13",
+            "open": 593.0,
+            "high": 594.0,
+            "low": 589.0,
+            "close": 593.0,
+            "adjClose": 581.197449,
+            "volume": 56174363.0
+        },
+        {
+            "date": "2023-06-14",
+            "open": 590.0,
+            "high": 591.0,
+            "low": 587.0,
+            "close": 590.0,
+            "adjClose": 578.257141,
+            "volume": 23583314.0
+        },
+        {
+            "date": "2023-06-15",
+            "open": 590.0,
+            "high": 593.0,
+            "low": 587.0,
+            "close": 591.0,
+            "adjClose": 581.949585,
+            "volume": 27392154.0
+        },
+        {
+            "date": "2023-06-16",
+            "open": 590.0,
+            "high": 590.0,
+            "low": 584.0,
+            "close": 589.0,
+            "adjClose": 579.980225,
+            "volume": 38128802.0
+        },
+        {
+            "date": "2023-06-19",
+            "open": 583.0,
+            "high": 585.0,
+            "low": 582.0,
+            "close": 583.0,
+            "adjClose": 574.072144,
+            "volume": 14346885.0
+        },
+        {
+            "date": "2023-06-20",
+            "open": 579.0,
+            "high": 585.0,
+            "low": 579.0,
+            "close": 583.0,
+            "adjClose": 574.072144,
+            "volume": 16221413.0
+        },
+        {
+            "date": "2023-06-21",
+            "open": 582.0,
+            "high": 585.0,
+            "low": 578.0,
+            "close": 581.0,
+            "adjClose": 572.102661,
+            "volume": 21703937.0
+        },
+        {
+            "date": "2023-06-26",
+            "open": 576.0,
+            "high": 578.0,
+            "low": 574.0,
+            "close": 574.0,
+            "adjClose": 565.2099,
+            "volume": 27142262.0
+        },
+        {
+            "date": "2023-06-27",
+            "open": 570.0,
+            "high": 575.0,
+            "low": 569.0,
+            "close": 572.0,
+            "adjClose": 563.24054,
+            "volume": 21501718.0
+        },
+        {
+            "date": "2023-06-28",
+            "open": 579.0,
+            "high": 579.0,
+            "low": 571.0,
+            "close": 574.0,
+            "adjClose": 565.2099,
+            "volume": 18175426.0
+        },
+        {
+            "date": "2023-06-29",
+            "open": 578.0,
+            "high": 580.0,
+            "low": 570.0,
+            "close": 573.0,
+            "adjClose": 564.22522,
+            "volume": 16937929.0
+        },
+        {
+            "date": "2023-06-30",
+            "open": 570.0,
+            "high": 576.0,
+            "low": 568.0,
+            "close": 576.0,
+            "adjClose": 567.179321,
+            "volume": 22654976.0
+        },
+        {
+            "date": "2023-07-03",
+            "open": 578.0,
+            "high": 580.0,
+            "low": 576.0,
+            "close": 579.0,
+            "adjClose": 570.133301,
+            "volume": 14785585.0
+        },
+        {
+            "date": "2023-07-04",
+            "open": 585.0,
+            "high": 585.0,
+            "low": 580.0,
+            "close": 585.0,
+            "adjClose": 576.041504,
+            "volume": 17219541.0
+        },
+        {
+            "date": "2023-07-05",
+            "open": 589.0,
+            "high": 589.0,
+            "low": 579.0,
+            "close": 582.0,
+            "adjClose": 573.087402,
+            "volume": 14913592.0
+        },
+        {
+            "date": "2023-07-06",
+            "open": 573.0,
+            "high": 574.0,
+            "low": 565.0,
+            "close": 565.0,
+            "adjClose": 556.347778,
+            "volume": 28564891.0
+        },
+        {
+            "date": "2023-07-07",
+            "open": 565.0,
+            "high": 572.0,
+            "low": 563.0,
+            "close": 565.0,
+            "adjClose": 556.347778,
+            "volume": 18796190.0
+        },
+        {
+            "date": "2023-07-10",
+            "open": 567.0,
+            "high": 573.0,
+            "low": 565.0,
+            "close": 565.0,
+            "adjClose": 556.347778,
+            "volume": 18454982.0
+        },
+        {
+            "date": "2023-07-11",
+            "open": 574.0,
+            "high": 577.0,
+            "low": 570.0,
+            "close": 577.0,
+            "adjClose": 568.164001,
+            "volume": 17850636.0
+        },
+        {
+            "date": "2023-07-12",
+            "open": 574.0,
+            "high": 578.0,
+            "low": 572.0,
+            "close": 578.0,
+            "adjClose": 569.148682,
+            "volume": 15588228.0
+        },
+        {
+            "date": "2023-07-13",
+            "open": 587.0,
+            "high": 590.0,
+            "low": 585.0,
+            "close": 585.0,
+            "adjClose": 576.041504,
+            "volume": 25442137.0
+        },
+        {
+            "date": "2023-07-14",
+            "open": 589.0,
+            "high": 591.0,
+            "low": 587.0,
+            "close": 591.0,
+            "adjClose": 581.949585,
+            "volume": 23121873.0
+        },
+        {
+            "date": "2023-07-17",
+            "open": 588.0,
+            "high": 591.0,
+            "low": 587.0,
+            "close": 591.0,
+            "adjClose": 581.949585,
+            "volume": 13807834.0
+        },
+        {
+            "date": "2023-07-18",
+            "open": 587.0,
+            "high": 588.0,
+            "low": 580.0,
+            "close": 581.0,
+            "adjClose": 572.102661,
+            "volume": 20932006.0
+        },
+        {
+            "date": "2023-07-19",
+            "open": 584.0,
+            "high": 587.0,
+            "low": 579.0,
+            "close": 581.0,
+            "adjClose": 572.102661,
+            "volume": 22499123.0
+        },
+        {
+            "date": "2023-07-20",
+            "open": 580.0,
+            "high": 584.0,
+            "low": 578.0,
+            "close": 579.0,
+            "adjClose": 570.133301,
+            "volume": 15108109.0
+        },
+        {
+            "date": "2023-07-21",
+            "open": 560.0,
+            "high": 563.0,
+            "low": 557.0,
+            "close": 560.0,
+            "adjClose": 551.424316,
+            "volume": 46711021.0
+        },
+        {
+            "date": "2023-07-24",
+            "open": 557.0,
+            "high": 563.0,
+            "low": 557.0,
+            "close": 558.0,
+            "adjClose": 549.454956,
+            "volume": 25268835.0
+        },
+        {
+            "date": "2023-07-25",
+            "open": 561.0,
+            "high": 569.0,
+            "low": 561.0,
+            "close": 569.0,
+            "adjClose": 560.286499,
+            "volume": 19590349.0
+        },
+        {
+            "date": "2023-07-26",
+            "open": 569.0,
+            "high": 571.0,
+            "low": 563.0,
+            "close": 566.0,
+            "adjClose": 557.332397,
+            "volume": 13314305.0
+        },
+        {
+            "date": "2023-07-27",
+            "open": 570.0,
+            "high": 570.0,
+            "low": 566.0,
+            "close": 569.0,
+            "adjClose": 560.286499,
+            "volume": 12200358.0
+        },
+        {
+            "date": "2023-07-28",
+            "open": 569.0,
+            "high": 573.0,
+            "low": 565.0,
+            "close": 567.0,
+            "adjClose": 558.317078,
+            "volume": 18540078.0
+        },
+        {
+            "date": "2023-07-31",
+            "open": 575.0,
+            "high": 575.0,
+            "low": 560.0,
+            "close": 565.0,
+            "adjClose": 556.347778,
+            "volume": 24208467.0
+        },
+        {
+            "date": "2023-08-01",
+            "open": 565.0,
+            "high": 568.0,
+            "low": 564.0,
+            "close": 567.0,
+            "adjClose": 558.317078,
+            "volume": 16259643.0
+        },
+        {
+            "date": "2023-08-02",
+            "open": 567.0,
+            "high": 569.0,
+            "low": 558.0,
+            "close": 561.0,
+            "adjClose": 552.408997,
+            "volume": 25583234.0
+        },
+        {
+            "date": "2023-08-04",
+            "open": 556.0,
+            "high": 560.0,
+            "low": 552.0,
+            "close": 554.0,
+            "adjClose": 545.516174,
+            "volume": 26279173.0
+        },
+        {
+            "date": "2023-08-07",
+            "open": 558.0,
+            "high": 561.0,
+            "low": 556.0,
+            "close": 558.0,
+            "adjClose": 549.454956,
+            "volume": 14369551.0
+        },
+        {
+            "date": "2023-08-08",
+            "open": 558.0,
+            "high": 558.0,
+            "low": 551.0,
+            "close": 552.0,
+            "adjClose": 543.546875,
+            "volume": 19010690.0
+        },
+        {
+            "date": "2023-08-09",
+            "open": 550.0,
+            "high": 557.0,
+            "low": 550.0,
+            "close": 554.0,
+            "adjClose": 545.516174,
+            "volume": 14389090.0
+        },
+        {
+            "date": "2023-08-10",
+            "open": 552.0,
+            "high": 554.0,
+            "low": 550.0,
+            "close": 551.0,
+            "adjClose": 542.562134,
+            "volume": 17892615.0
+        },
+        {
+            "date": "2023-08-11",
+            "open": 556.0,
+            "high": 558.0,
+            "low": 546.0,
+            "close": 546.0,
+            "adjClose": 537.638733,
+            "volume": 17608427.0
+        },
+        {
+            "date": "2023-08-14",
+            "open": 540.0,
+            "high": 543.0,
+            "low": 537.0,
+            "close": 541.0,
+            "adjClose": 532.715271,
+            "volume": 20939030.0
+        },
+        {
+            "date": "2023-08-15",
+            "open": 543.0,
+            "high": 545.0,
+            "low": 540.0,
+            "close": 542.0,
+            "adjClose": 533.699951,
+            "volume": 14066307.0
+        },
+        {
+            "date": "2023-08-16",
+            "open": 541.0,
+            "high": 543.0,
+            "low": 536.0,
+            "close": 542.0,
+            "adjClose": 533.699951,
+            "volume": 28269840.0
+        },
+        {
+            "date": "2023-08-17",
+            "open": 540.0,
+            "high": 546.0,
+            "low": 537.0,
+            "close": 544.0,
+            "adjClose": 535.669312,
+            "volume": 22843138.0
+        },
+        {
+            "date": "2023-08-18",
+            "open": 540.0,
+            "high": 544.0,
+            "low": 539.0,
+            "close": 539.0,
+            "adjClose": 530.745911,
+            "volume": 17592345.0
+        },
+        {
+            "date": "2023-08-21",
+            "open": 544.0,
+            "high": 544.0,
+            "low": 534.0,
+            "close": 537.0,
+            "adjClose": 528.776489,
+            "volume": 16633821.0
+        },
+        {
+            "date": "2023-08-22",
+            "open": 544.0,
+            "high": 544.0,
+            "low": 538.0,
+            "close": 541.0,
+            "adjClose": 532.715271,
+            "volume": 14594304.0
+        },
+        {
+            "date": "2023-08-23",
+            "open": 546.0,
+            "high": 552.0,
+            "low": 544.0,
+            "close": 552.0,
+            "adjClose": 543.546875,
+            "volume": 20636332.0
+        },
+        {
+            "date": "2023-08-24",
+            "open": 563.0,
+            "high": 564.0,
+            "low": 558.0,
+            "close": 564.0,
+            "adjClose": 555.363098,
+            "volume": 23280827.0
+        },
+        {
+            "date": "2023-08-25",
+            "open": 549.0,
+            "high": 551.0,
+            "low": 546.0,
+            "close": 546.0,
+            "adjClose": 537.638733,
+            "volume": 24144537.0
+        },
+        {
+            "date": "2023-08-28",
+            "open": 547.0,
+            "high": 553.0,
+            "low": 547.0,
+            "close": 549.0,
+            "adjClose": 540.592773,
+            "volume": 8991985.0
+        },
+        {
+            "date": "2023-08-29",
+            "open": 551.0,
+            "high": 553.0,
+            "low": 546.0,
+            "close": 552.0,
+            "adjClose": 543.546875,
+            "volume": 10516678.0
+        },
+        {
+            "date": "2023-08-30",
+            "open": 558.0,
+            "high": 560.0,
+            "low": 554.0,
+            "close": 555.0,
+            "adjClose": 546.500916,
+            "volume": 15117416.0
+        },
+        {
+            "date": "2023-08-31",
+            "open": 553.0,
+            "high": 556.0,
+            "low": 548.0,
+            "close": 549.0,
+            "adjClose": 540.592773,
+            "volume": 40431378.0
+        },
+        {
+            "date": "2023-09-01",
+            "open": 543.0,
+            "high": 553.0,
+            "low": 543.0,
+            "close": 548.0,
+            "adjClose": 539.608093,
+            "volume": 13669766.0
+        },
+        {
+            "date": "2023-09-04",
+            "open": 549.0,
+            "high": 557.0,
+            "low": 549.0,
+            "close": 557.0,
+            "adjClose": 548.470276,
+            "volume": 9531157.0
+        },
+        {
+            "date": "2023-09-05",
+            "open": 553.0,
+            "high": 555.0,
+            "low": 550.0,
+            "close": 552.0,
+            "adjClose": 543.546875,
+            "volume": 12220686.0
+        },
+        {
+            "date": "2023-09-06",
+            "open": 556.0,
+            "high": 556.0,
+            "low": 550.0,
+            "close": 550.0,
+            "adjClose": 541.577454,
+            "volume": 14067008.0
+        },
+        {
+            "date": "2023-09-07",
+            "open": 546.0,
+            "high": 548.0,
+            "low": 542.0,
+            "close": 542.0,
+            "adjClose": 533.699951,
+            "volume": 20717005.0
+        },
+        {
+            "date": "2023-09-08",
+            "open": 535.0,
+            "high": 540.0,
+            "low": 535.0,
+            "close": 539.0,
+            "adjClose": 530.745911,
+            "volume": 15283568.0
+        },
+        {
+            "date": "2023-09-11",
+            "open": 539.0,
+            "high": 540.0,
+            "low": 536.0,
+            "close": 536.0,
+            "adjClose": 527.79187,
+            "volume": 14631968.0
+        },
+        {
+            "date": "2023-09-12",
+            "open": 536.0,
+            "high": 545.0,
+            "low": 536.0,
+            "close": 544.0,
+            "adjClose": 535.669312,
+            "volume": 16028336.0
+        },
+        {
+            "date": "2023-09-13",
+            "open": 545.0,
+            "high": 548.0,
+            "low": 541.0,
+            "close": 541.0,
+            "adjClose": 532.715271,
+            "volume": 16191392.0
+        },
+        {
+            "date": "2023-09-14",
+            "open": 544.0,
+            "high": 550.0,
+            "low": 543.0,
+            "close": 550.0,
+            "adjClose": 544.597412,
+            "volume": 17144287.0
+        },
+        {
+            "date": "2023-09-15",
+            "open": 549.0,
+            "high": 558.0,
+            "low": 547.0,
+            "close": 558.0,
+            "adjClose": 552.518799,
+            "volume": 42517441.0
+        },
+        {
+            "date": "2023-09-18",
+            "open": 548.0,
+            "high": 549.0,
+            "low": 540.0,
+            "close": 540.0,
+            "adjClose": 534.695618,
+            "volume": 36684692.0
+        },
+        {
+            "date": "2023-09-19",
+            "open": 539.0,
+            "high": 543.0,
+            "low": 538.0,
+            "close": 538.0,
+            "adjClose": 532.715271,
+            "volume": 18901683.0
+        },
+        {
+            "date": "2023-09-20",
+            "open": 536.0,
+            "high": 538.0,
+            "low": 535.0,
+            "close": 535.0,
+            "adjClose": 529.744751,
+            "volume": 24635567.0
+        },
+        {
+            "date": "2023-09-21",
+            "open": 530.0,
+            "high": 531.0,
+            "low": 526.0,
+            "close": 527.0,
+            "adjClose": 521.823303,
+            "volume": 32012694.0
+        },
+        {
+            "date": "2023-09-22",
+            "open": 523.0,
+            "high": 525.0,
+            "low": 522.0,
+            "close": 522.0,
+            "adjClose": 516.872437,
+            "volume": 29049309.0
+        },
+        {
+            "date": "2023-09-25",
+            "open": 522.0,
+            "high": 529.0,
+            "low": 522.0,
+            "close": 525.0,
+            "adjClose": 519.842957,
+            "volume": 17116402.0
+        },
+        {
+            "date": "2023-09-26",
+            "open": 521.0,
+            "high": 524.0,
+            "low": 519.0,
+            "close": 519.0,
+            "adjClose": 513.901855,
+            "volume": 26392692.0
+        },
+        {
+            "date": "2023-09-27",
+            "open": 517.0,
+            "high": 523.0,
+            "low": 516.0,
+            "close": 522.0,
+            "adjClose": 516.872437,
+            "volume": 16846401.0
+        },
+        {
+            "date": "2023-09-28",
+            "open": 523.0,
+            "high": 525.0,
+            "low": 520.0,
+            "close": 523.0,
+            "adjClose": 517.86261,
+            "volume": 19733331.0
+        },
+        {
+            "date": "2023-10-02",
+            "open": 530.0,
+            "high": 534.0,
+            "low": 528.0,
+            "close": 533.0,
+            "adjClose": 527.764343,
+            "volume": 25427911.0
+        },
+        {
+            "date": "2023-10-03",
+            "open": 528.0,
+            "high": 533.0,
+            "low": 528.0,
+            "close": 529.0,
+            "adjClose": 523.80365,
+            "volume": 14490129.0
+        },
+        {
+            "date": "2023-10-04",
+            "open": 521.0,
+            "high": 523.0,
+            "low": 519.0,
+            "close": 520.0,
+            "adjClose": 514.892029,
+            "volume": 28358964.0
+        },
+        {
+            "date": "2023-10-05",
+            "open": 523.0,
+            "high": 529.0,
+            "low": 523.0,
+            "close": 528.0,
+            "adjClose": 522.813477,
+            "volume": 24945684.0
+        },
+        {
+            "date": "2023-10-06",
+            "open": 530.0,
+            "high": 533.0,
+            "low": 529.0,
+            "close": 532.0,
+            "adjClose": 526.774231,
+            "volume": 15336587.0
+        },
+        {
+            "date": "2023-10-11",
+            "open": 542.0,
+            "high": 544.0,
+            "low": 540.0,
+            "close": 544.0,
+            "adjClose": 538.656311,
+            "volume": 46639969.0
+        },
+        {
+            "date": "2023-10-12",
+            "open": 545.0,
+            "high": 550.0,
+            "low": 544.0,
+            "close": 550.0,
+            "adjClose": 544.597412,
+            "volume": 34161176.0
+        },
+        {
+            "date": "2023-10-13",
+            "open": 550.0,
+            "high": 554.0,
+            "low": 548.0,
+            "close": 553.0,
+            "adjClose": 547.567871,
+            "volume": 31123496.0
+        },
+        {
+            "date": "2023-10-16",
+            "open": 546.0,
+            "high": 547.0,
+            "low": 542.0,
+            "close": 545.0,
+            "adjClose": 539.646545,
+            "volume": 19875676.0
+        },
+        {
+            "date": "2023-10-17",
+            "open": 550.0,
+            "high": 552.0,
+            "low": 548.0,
+            "close": 551.0,
+            "adjClose": 545.587585,
+            "volume": 18364998.0
+        },
+        {
+            "date": "2023-10-18",
+            "open": 549.0,
+            "high": 549.0,
+            "low": 540.0,
+            "close": 540.0,
+            "adjClose": 534.695618,
+            "volume": 26418940.0
+        },
+        {
+            "date": "2023-10-19",
+            "open": 540.0,
+            "high": 548.0,
+            "low": 540.0,
+            "close": 546.0,
+            "adjClose": 540.636658,
+            "volume": 22881262.0
+        },
+        {
+            "date": "2023-10-20",
+            "open": 549.0,
+            "high": 556.0,
+            "low": 546.0,
+            "close": 556.0,
+            "adjClose": 550.538452,
+            "volume": 45984177.0
+        },
+        {
+            "date": "2023-10-23",
+            "open": 552.0,
+            "high": 553.0,
+            "low": 543.0,
+            "close": 544.0,
+            "adjClose": 538.656311,
+            "volume": 22747367.0
+        },
+        {
+            "date": "2023-10-24",
+            "open": 543.0,
+            "high": 546.0,
+            "low": 540.0,
+            "close": 544.0,
+            "adjClose": 538.656311,
+            "volume": 15007814.0
+        },
+        {
+            "date": "2023-10-25",
+            "open": 544.0,
+            "high": 551.0,
+            "low": 544.0,
+            "close": 544.0,
+            "adjClose": 538.656311,
+            "volume": 16526355.0
+        },
+        {
+            "date": "2023-10-26",
+            "open": 530.0,
+            "high": 535.0,
+            "low": 530.0,
+            "close": 531.0,
+            "adjClose": 525.784058,
+            "volume": 28188348.0
+        },
+        {
+            "date": "2023-10-27",
+            "open": 534.0,
+            "high": 536.0,
+            "low": 532.0,
+            "close": 533.0,
+            "adjClose": 527.764343,
+            "volume": 15679643.0
+        },
+        {
+            "date": "2023-10-30",
+            "open": 531.0,
+            "high": 534.0,
+            "low": 528.0,
+            "close": 532.0,
+            "adjClose": 526.774231,
+            "volume": 21404842.0
+        },
+        {
+            "date": "2023-10-31",
+            "open": 535.0,
+            "high": 535.0,
+            "low": 527.0,
+            "close": 529.0,
+            "adjClose": 523.80365,
+            "volume": 25667058.0
+        },
+        {
+            "date": "2023-11-01",
+            "open": 533.0,
+            "high": 533.0,
+            "low": 527.0,
+            "close": 528.0,
+            "adjClose": 522.813477,
+            "volume": 13603347.0
+        },
+        {
+            "date": "2023-11-02",
+            "open": 536.0,
+            "high": 547.0,
+            "low": 535.0,
+            "close": 547.0,
+            "adjClose": 541.626831,
+            "volume": 29401438.0
+        },
+        {
+            "date": "2023-11-03",
+            "open": 547.0,
+            "high": 549.0,
+            "low": 545.0,
+            "close": 549.0,
+            "adjClose": 543.607178,
+            "volume": 15426176.0
+        },
+        {
+            "date": "2023-11-06",
+            "open": 553.0,
+            "high": 556.0,
+            "low": 550.0,
+            "close": 550.0,
+            "adjClose": 544.597412,
+            "volume": 29215201.0
+        },
+        {
+            "date": "2023-11-07",
+            "open": 552.0,
+            "high": 555.0,
+            "low": 550.0,
+            "close": 555.0,
+            "adjClose": 549.548279,
+            "volume": 14777790.0
+        },
+        {
+            "date": "2023-11-08",
+            "open": 550.0,
+            "high": 557.0,
+            "low": 550.0,
+            "close": 556.0,
+            "adjClose": 550.538452,
+            "volume": 15314834.0
+        },
+        {
+            "date": "2023-11-09",
+            "open": 551.0,
+            "high": 557.0,
+            "low": 551.0,
+            "close": 557.0,
+            "adjClose": 551.528625,
+            "volume": 13165684.0
+        },
+        {
+            "date": "2023-11-10",
+            "open": 555.0,
+            "high": 557.0,
+            "low": 554.0,
+            "close": 557.0,
+            "adjClose": 551.528625,
+            "volume": 12994933.0
+        },
+        {
+            "date": "2023-11-13",
+            "open": 579.0,
+            "high": 580.0,
+            "low": 571.0,
+            "close": 571.0,
+            "adjClose": 565.391113,
+            "volume": 43866014.0
+        },
+        {
+            "date": "2023-11-14",
+            "open": 576.0,
+            "high": 576.0,
+            "low": 571.0,
+            "close": 572.0,
+            "adjClose": 566.381287,
+            "volume": 21568576.0
+        },
+        {
+            "date": "2023-11-15",
+            "open": 583.0,
+            "high": 583.0,
+            "low": 575.0,
+            "close": 581.0,
+            "adjClose": 575.292847,
+            "volume": 50305088.0
+        },
+        {
+            "date": "2023-11-16",
+            "open": 581.0,
+            "high": 583.0,
+            "low": 578.0,
+            "close": 583.0,
+            "adjClose": 577.273254,
+            "volume": 28291435.0
+        },
+        {
+            "date": "2023-11-17",
+            "open": 579.0,
+            "high": 583.0,
+            "low": 579.0,
+            "close": 580.0,
+            "adjClose": 574.302673,
+            "volume": 22031704.0
+        },
+        {
+            "date": "2023-11-20",
+            "open": 576.0,
+            "high": 579.0,
+            "low": 575.0,
+            "close": 577.0,
+            "adjClose": 571.332153,
+            "volume": 22010114.0
+        },
+        {
+            "date": "2023-11-21",
+            "open": 582.0,
+            "high": 585.0,
+            "low": 581.0,
+            "close": 585.0,
+            "adjClose": 579.253601,
+            "volume": 35921706.0
+        },
+        {
+            "date": "2023-11-22",
+            "open": 576.0,
+            "high": 579.0,
+            "low": 574.0,
+            "close": 577.0,
+            "adjClose": 571.332153,
+            "volume": 21969125.0
+        },
+        {
+            "date": "2023-11-23",
+            "open": 574.0,
+            "high": 578.0,
+            "low": 574.0,
+            "close": 578.0,
+            "adjClose": 572.322388,
+            "volume": 14486134.0
+        },
+        {
+            "date": "2023-11-24",
+            "open": 577.0,
+            "high": 578.0,
+            "low": 574.0,
+            "close": 575.0,
+            "adjClose": 569.351807,
+            "volume": 10058969.0
+        },
+        {
+            "date": "2023-11-27",
+            "open": 573.0,
+            "high": 577.0,
+            "low": 568.0,
+            "close": 568.0,
+            "adjClose": 562.420532,
+            "volume": 18528520.0
+        },
+        {
+            "date": "2023-11-28",
+            "open": 565.0,
+            "high": 576.0,
+            "low": 565.0,
+            "close": 575.0,
+            "adjClose": 569.351807,
+            "volume": 26343906.0
+        },
+        {
+            "date": "2023-11-29",
+            "open": 578.0,
+            "high": 579.0,
+            "low": 570.0,
+            "close": 574.0,
+            "adjClose": 568.361633,
+            "volume": 24868842.0
+        },
+        {
+            "date": "2023-11-30",
+            "open": 576.0,
+            "high": 577.0,
+            "low": 570.0,
+            "close": 577.0,
+            "adjClose": 571.332153,
+            "volume": 47192647.0
+        },
+        {
+            "date": "2023-12-01",
+            "open": 573.0,
+            "high": 579.0,
+            "low": 573.0,
+            "close": 579.0,
+            "adjClose": 573.3125,
+            "volume": 28051165.0
+        },
+        {
+            "date": "2023-12-04",
+            "open": 582.0,
+            "high": 582.0,
+            "low": 571.0,
+            "close": 574.0,
+            "adjClose": 568.361633,
+            "volume": 26847171.0
+        },
+        {
+            "date": "2023-12-05",
+            "open": 571.0,
+            "high": 572.0,
+            "low": 567.0,
+            "close": 570.0,
+            "adjClose": 564.40094,
+            "volume": 22229723.0
+        },
+        {
+            "date": "2023-12-06",
+            "open": 568.0,
+            "high": 575.0,
+            "low": 568.0,
+            "close": 570.0,
+            "adjClose": 564.40094,
+            "volume": 21518089.0
+        },
+        {
+            "date": "2023-12-07",
+            "open": 570.0,
+            "high": 573.0,
+            "low": 566.0,
+            "close": 566.0,
+            "adjClose": 560.440186,
+            "volume": 20840397.0
+        },
+        {
+            "date": "2023-12-08",
+            "open": 574.0,
+            "high": 577.0,
+            "low": 570.0,
+            "close": 570.0,
+            "adjClose": 564.40094,
+            "volume": 33507214.0
+        },
+        {
+            "date": "2023-12-11",
+            "open": 572.0,
+            "high": 575.0,
+            "low": 570.0,
+            "close": 574.0,
+            "adjClose": 568.361633,
+            "volume": 27378610.0
+        },
+        {
+            "date": "2023-12-12",
+            "open": 580.0,
+            "high": 581.0,
+            "low": 575.0,
+            "close": 578.0,
+            "adjClose": 572.322388,
+            "volume": 29403010.0
+        },
+        {
+            "date": "2023-12-13",
+            "open": 576.0,
+            "high": 579.0,
+            "low": 576.0,
+            "close": 577.0,
+            "adjClose": 571.332153,
+            "volume": 22977731.0
+        },
+        {
+            "date": "2023-12-14",
+            "open": 581.0,
+            "high": 582.0,
+            "low": 579.0,
+            "close": 582.0,
+            "adjClose": 579.294983,
+            "volume": 39409958.0
+        },
+        {
+            "date": "2023-12-15",
+            "open": 585.0,
+            "high": 586.0,
+            "low": 580.0,
+            "close": 585.0,
+            "adjClose": 582.281067,
+            "volume": 54323262.0
+        },
+        {
+            "date": "2023-12-18",
+            "open": 579.0,
+            "high": 585.0,
+            "low": 577.0,
+            "close": 585.0,
+            "adjClose": 582.281067,
+            "volume": 26122277.0
+        },
+        {
+            "date": "2023-12-19",
+            "open": 588.0,
+            "high": 588.0,
+            "low": 580.0,
+            "close": 585.0,
+            "adjClose": 582.281067,
+            "volume": 28254292.0
+        },
+        {
+            "date": "2023-12-20",
+            "open": 587.0,
+            "high": 587.0,
+            "low": 583.0,
+            "close": 585.0,
+            "adjClose": 582.281067,
+            "volume": 38121456.0
+        },
+        {
+            "date": "2023-12-21",
+            "open": 577.0,
+            "high": 579.0,
+            "low": 575.0,
+            "close": 577.0,
+            "adjClose": 574.318237,
+            "volume": 24923414.0
+        },
+        {
+            "date": "2023-12-22",
+            "open": 582.0,
+            "high": 582.0,
+            "low": 579.0,
+            "close": 582.0,
+            "adjClose": 579.294983,
+            "volume": 18690214.0
+        },
+        {
+            "date": "2023-12-25",
+            "open": 582.0,
+            "high": 585.0,
+            "low": 580.0,
+            "close": 581.0,
+            "adjClose": 578.299622,
+            "volume": 9548143.0
+        },
+        {
+            "date": "2023-12-26",
+            "open": 583.0,
+            "high": 586.0,
+            "low": 582.0,
+            "close": 586.0,
+            "adjClose": 583.276367,
+            "volume": 16094308.0
+        },
+        {
+            "date": "2023-12-27",
+            "open": 587.0,
+            "high": 592.0,
+            "low": 586.0,
+            "close": 592.0,
+            "adjClose": 589.248535,
+            "volume": 33401336.0
+        },
+        {
+            "date": "2023-12-28",
+            "open": 592.0,
+            "high": 593.0,
+            "low": 589.0,
+            "close": 593.0,
+            "adjClose": 590.243835,
+            "volume": 25514849.0
+        },
+        {
+            "date": "2023-12-29",
+            "open": 589.0,
+            "high": 593.0,
+            "low": 589.0,
+            "close": 593.0,
+            "adjClose": 590.243835,
+            "volume": 18416318.0
+        },
+        {
+            "date": "2024-01-02",
+            "open": 590.0,
+            "high": 593.0,
+            "low": 589.0,
+            "close": 593.0,
+            "adjClose": 590.243835,
+            "volume": 26059058.0
+        },
+        {
+            "date": "2024-01-03",
+            "open": 584.0,
+            "high": 585.0,
+            "low": 576.0,
+            "close": 578.0,
+            "adjClose": 575.313599,
+            "volume": 37106763.0
+        },
+        {
+            "date": "2024-01-04",
+            "open": 580.0,
+            "high": 581.0,
+            "low": 577.0,
+            "close": 580.0,
+            "adjClose": 577.30426,
+            "volume": 15309129.0
+        },
+        {
+            "date": "2024-01-05",
+            "open": 578.0,
+            "high": 580.0,
+            "low": 574.0,
+            "close": 576.0,
+            "adjClose": 573.322876,
+            "volume": 18158971.0
+        },
+        {
+            "date": "2024-01-08",
+            "open": 582.0,
+            "high": 585.0,
+            "low": 579.0,
+            "close": 583.0,
+            "adjClose": 580.290344,
+            "volume": 17761275.0
+        },
+        {
+            "date": "2024-01-09",
+            "open": 588.0,
+            "high": 589.0,
+            "low": 583.0,
+            "close": 586.0,
+            "adjClose": 583.276367,
+            "volume": 22501510.0
+        },
+        {
+            "date": "2024-01-10",
+            "open": 581.0,
+            "high": 586.0,
+            "low": 580.0,
+            "close": 584.0,
+            "adjClose": 581.285706,
+            "volume": 13037716.0
+        },
+        {
+            "date": "2024-01-11",
+            "open": 586.0,
+            "high": 589.0,
+            "low": 583.0,
+            "close": 586.0,
+            "adjClose": 583.276367,
+            "volume": 23997409.0
+        },
+        {
+            "date": "2024-01-12",
+            "open": 581.0,
+            "high": 588.0,
+            "low": 581.0,
+            "close": 584.0,
+            "adjClose": 581.285706,
+            "volume": 16496053.0
+        },
+        {
+            "date": "2024-01-15",
+            "open": 590.0,
+            "high": 590.0,
+            "low": 585.0,
+            "close": 586.0,
+            "adjClose": 583.276367,
+            "volume": 21143076.0
+        },
+        {
+            "date": "2024-01-16",
+            "open": 581.0,
+            "high": 588.0,
+            "low": 579.0,
+            "close": 580.0,
+            "adjClose": 577.30426,
+            "volume": 27223860.0
+        },
+        {
+            "date": "2024-01-17",
+            "open": 583.0,
+            "high": 584.0,
+            "low": 578.0,
+            "close": 581.0,
+            "adjClose": 578.299622,
+            "volume": 42592335.0
+        },
+        {
+            "date": "2024-01-18",
+            "open": 586.0,
+            "high": 589.0,
+            "low": 585.0,
+            "close": 588.0,
+            "adjClose": 585.26709,
+            "volume": 27209996.0
+        },
+        {
+            "date": "2024-01-19",
+            "open": 625.0,
+            "high": 627.0,
+            "low": 614.0,
+            "close": 626.0,
+            "adjClose": 623.090454,
+            "volume": 161106401.0
+        },
+        {
+            "date": "2024-01-22",
+            "open": 633.0,
+            "high": 633.0,
+            "low": 623.0,
+            "close": 626.0,
+            "adjClose": 623.090454,
+            "volume": 65168775.0
+        },
+        {
+            "date": "2024-01-23",
+            "open": 629.0,
+            "high": 629.0,
+            "low": 622.0,
+            "close": 628.0,
+            "adjClose": 625.081177,
+            "volume": 41072439.0
+        },
+        {
+            "date": "2024-01-24",
+            "open": 628.0,
+            "high": 630.0,
+            "low": 624.0,
+            "close": 627.0,
+            "adjClose": 624.085815,
+            "volume": 26635005.0
+        },
+        {
+            "date": "2024-01-25",
+            "open": 635.0,
+            "high": 642.0,
+            "low": 633.0,
+            "close": 642.0,
+            "adjClose": 639.016113,
+            "volume": 52243347.0
+        },
+        {
+            "date": "2024-01-26",
+            "open": 644.0,
+            "high": 646.0,
+            "low": 639.0,
+            "close": 644.0,
+            "adjClose": 641.006836,
+            "volume": 41153025.0
+        },
+        {
+            "date": "2024-01-29",
+            "open": 646.0,
+            "high": 648.0,
+            "low": 644.0,
+            "close": 648.0,
+            "adjClose": 644.98822,
+            "volume": 27825490.0
+        },
+        {
+            "date": "2024-01-30",
+            "open": 642.0,
+            "high": 647.0,
+            "low": 642.0,
+            "close": 642.0,
+            "adjClose": 639.016113,
+            "volume": 36161825.0
+        },
+        {
+            "date": "2024-01-31",
+            "open": 634.0,
+            "high": 637.0,
+            "low": 626.0,
+            "close": 628.0,
+            "adjClose": 625.081177,
+            "volume": 41277950.0
+        },
+        {
+            "date": "2024-02-01",
+            "open": 625.0,
+            "high": 628.0,
+            "low": 619.0,
+            "close": 628.0,
+            "adjClose": 625.081177,
+            "volume": 44946369.0
+        },
+        {
+            "date": "2024-02-02",
+            "open": 633.0,
+            "high": 635.0,
+            "low": 628.0,
+            "close": 635.0,
+            "adjClose": 632.048645,
+            "volume": 26334815.0
+        },
+        {
+            "date": "2024-02-05",
+            "open": 645.0,
+            "high": 647.0,
+            "low": 638.0,
+            "close": 646.0,
+            "adjClose": 642.997498,
+            "volume": 44017740.0
+        },
+        {
+            "date": "2024-02-15",
+            "open": 709.0,
+            "high": 709.0,
+            "low": 693.0,
+            "close": 697.0,
+            "adjClose": 693.760498,
+            "volume": 112945296.0
+        },
+        {
+            "date": "2024-02-16",
+            "open": 697.0,
+            "high": 699.0,
+            "low": 683.0,
+            "close": 683.0,
+            "adjClose": 679.825562,
+            "volume": 44232811.0
+        },
+        {
+            "date": "2024-02-19",
+            "open": 674.0,
+            "high": 682.0,
+            "low": 674.0,
+            "close": 678.0,
+            "adjClose": 674.848816,
+            "volume": 34408673.0
+        },
+        {
+            "date": "2024-02-20",
+            "open": 675.0,
+            "high": 688.0,
+            "low": 675.0,
+            "close": 687.0,
+            "adjClose": 683.806946,
+            "volume": 30166461.0
+        },
+        {
+            "date": "2024-02-21",
+            "open": 678.0,
+            "high": 683.0,
+            "low": 678.0,
+            "close": 681.0,
+            "adjClose": 677.834839,
+            "volume": 30564485.0
+        },
+        {
+            "date": "2024-02-22",
+            "open": 695.0,
+            "high": 695.0,
+            "low": 685.0,
+            "close": 692.0,
+            "adjClose": 688.783752,
+            "volume": 33145643.0
+        },
+        {
+            "date": "2024-02-23",
+            "open": 701.0,
+            "high": 703.0,
+            "low": 696.0,
+            "close": 697.0,
+            "adjClose": 693.760498,
+            "volume": 46448923.0
+        },
+        {
+            "date": "2024-02-26",
+            "open": 700.0,
+            "high": 700.0,
+            "low": 695.0,
+            "close": 698.0,
+            "adjClose": 694.755859,
+            "volume": 28798079.0
+        },
+        {
+            "date": "2024-02-27",
+            "open": 700.0,
+            "high": 701.0,
+            "low": 691.0,
+            "close": 698.0,
+            "adjClose": 694.755859,
+            "volume": 33006829.0
+        },
+        {
+            "date": "2024-02-29",
+            "open": 691.0,
+            "high": 698.0,
+            "low": 688.0,
+            "close": 690.0,
+            "adjClose": 686.79303,
+            "volume": 54368302.0
+        },
+        {
+            "date": "2024-03-01",
+            "open": 697.0,
+            "high": 697.0,
+            "low": 688.0,
+            "close": 689.0,
+            "adjClose": 685.797668,
+            "volume": 23390635.0
+        },
+        {
+            "date": "2024-03-04",
+            "open": 714.0,
+            "high": 725.0,
+            "low": 711.0,
+            "close": 725.0,
+            "adjClose": 721.630371,
+            "volume": 88861397.0
+        },
+        {
+            "date": "2024-03-05",
+            "open": 735.0,
+            "high": 738.0,
+            "low": 728.0,
+            "close": 730.0,
+            "adjClose": 726.607117,
+            "volume": 64403889.0
+        },
+        {
+            "date": "2024-03-06",
+            "open": 718.0,
+            "high": 738.0,
+            "low": 717.0,
+            "close": 735.0,
+            "adjClose": 731.583862,
+            "volume": 43687122.0
+        },
+        {
+            "date": "2024-03-07",
+            "open": 755.0,
+            "high": 769.0,
+            "low": 754.0,
+            "close": 760.0,
+            "adjClose": 756.467651,
+            "volume": 71817344.0
+        },
+        {
+            "date": "2024-03-08",
+            "open": 795.0,
+            "high": 796.0,
+            "low": 772.0,
+            "close": 784.0,
+            "adjClose": 780.35614,
+            "volume": 87139744.0
+        },
+        {
+            "date": "2024-03-11",
+            "open": 768.0,
+            "high": 778.0,
+            "low": 761.0,
+            "close": 766.0,
+            "adjClose": 762.439819,
+            "volume": 64759810.0
+        },
+        {
+            "date": "2024-03-12",
+            "open": 757.0,
+            "high": 771.0,
+            "low": 754.0,
+            "close": 770.0,
+            "adjClose": 766.421204,
+            "volume": 58110339.0
+        },
+        {
+            "date": "2024-03-13",
+            "open": 785.0,
+            "high": 785.0,
+            "low": 777.0,
+            "close": 779.0,
+            "adjClose": 775.379395,
+            "volume": 36754557.0
+        },
+        {
+            "date": "2024-03-14",
+            "open": 779.0,
+            "high": 785.0,
+            "low": 770.0,
+            "close": 784.0,
+            "adjClose": 780.35614,
+            "volume": 42010806.0
+        },
+        {
+            "date": "2024-03-15",
+            "open": 771.0,
+            "high": 777.0,
+            "low": 753.0,
+            "close": 753.0,
+            "adjClose": 749.500183,
+            "volume": 73316437.0
+        },
+        {
+            "date": "2024-03-18",
+            "open": 754.0,
+            "high": 765.0,
+            "low": 754.0,
+            "close": 764.0,
+            "adjClose": 764.0,
+            "volume": 43589856.0
+        },
+        {
+            "date": "2024-03-19",
+            "open": 758.0,
+            "high": 765.0,
+            "low": 755.0,
+            "close": 762.0,
+            "adjClose": 762.0,
+            "volume": 30152375.0
+        },
+        {
+            "date": "2024-03-20",
+            "open": 764.0,
+            "high": 769.0,
+            "low": 752.0,
+            "close": 758.0,
+            "adjClose": 758.0,
+            "volume": 41280325.0
+        },
+        {
+            "date": "2024-03-21",
+            "open": 773.0,
+            "high": 784.0,
+            "low": 772.0,
+            "close": 784.0,
+            "adjClose": 784.0,
+            "volume": 46026103.0
+        },
+        {
+            "date": "2024-03-22",
+            "open": 788.0,
+            "high": 789.0,
+            "low": 775.0,
+            "close": 785.0,
+            "adjClose": 785.0,
+            "volume": 30660820.0
+        },
+        {
+            "date": "2024-03-25",
+            "open": 783.0,
+            "high": 788.0,
+            "low": 779.0,
+            "close": 780.0,
+            "adjClose": 780.0,
+            "volume": 19877101.0
+        },
+        {
+            "date": "2024-03-26",
+            "open": 788.0,
+            "high": 792.0,
+            "low": 776.0,
+            "close": 782.0,
+            "adjClose": 782.0,
+            "volume": 40990702.0
+        },
+        {
+            "date": "2024-03-27",
+            "open": 785.0,
+            "high": 785.0,
+            "low": 779.0,
+            "close": 779.0,
+            "adjClose": 779.0,
+            "volume": 18794479.0
+        },
+        {
+            "date": "2024-03-28",
+            "open": 774.0,
+            "high": 776.0,
+            "low": 768.0,
+            "close": 769.0,
+            "adjClose": 769.0,
+            "volume": 27190918.0
+        },
+        {
+            "date": "2024-03-29",
+            "open": 769.0,
+            "high": 777.0,
+            "low": 768.0,
+            "close": 776.0,
+            "adjClose": 776.0,
+            "volume": 9802000.0
+        },
+        {
+            "date": "2024-04-01",
+            "open": 783.0,
+            "high": 783.0,
+            "low": 769.0,
+            "close": 770.0,
+            "adjClose": 770.0,
+            "volume": 21041261.0
+        },
+        {
+            "date": "2024-04-02",
+            "open": 784.0,
+            "high": 790.0,
+            "low": 783.0,
+            "close": 790.0,
+            "adjClose": 790.0,
+            "volume": 37974481.0
+        },
+        {
+            "date": "2024-04-03",
+            "open": 783.0,
+            "high": 785.0,
+            "low": 778.0,
+            "close": 780.0,
+            "adjClose": 780.0,
+            "volume": 30890544.0
+        },
+        {
+            "date": "2024-04-08",
+            "open": 789.0,
+            "high": 792.0,
+            "low": 783.0,
+            "close": 783.0,
+            "adjClose": 783.0,
+            "volume": 32202226.0
+        },
+        {
+            "date": "2024-04-09",
+            "open": 795.0,
+            "high": 820.0,
+            "low": 792.0,
+            "close": 819.0,
+            "adjClose": 819.0,
+            "volume": 56857731.0
+        },
+        {
+            "date": "2024-04-10",
+            "open": 815.0,
+            "high": 819.0,
+            "low": 810.0,
+            "close": 815.0,
+            "adjClose": 815.0,
+            "volume": 27480849.0
+        },
+        {
+            "date": "2024-04-11",
+            "open": 811.0,
+            "high": 820.0,
+            "low": 811.0,
+            "close": 820.0,
+            "adjClose": 820.0,
+            "volume": 25200651.0
+        },
+        {
+            "date": "2024-04-12",
+            "open": 823.0,
+            "high": 826.0,
+            "low": 817.0,
+            "close": 818.0,
+            "adjClose": 818.0,
+            "volume": 31508936.0
+        },
+        {
+            "date": "2024-04-15",
+            "open": 804.0,
+            "high": 812.0,
+            "low": 803.0,
+            "close": 806.0,
+            "adjClose": 806.0,
+            "volume": 38913470.0
+        },
+        {
+            "date": "2024-04-16",
+            "open": 802.0,
+            "high": 803.0,
+            "low": 785.0,
+            "close": 788.0,
+            "adjClose": 788.0,
+            "volume": 49508969.0
+        },
+        {
+            "date": "2024-04-17",
+            "open": 798.0,
+            "high": 808.0,
+            "low": 793.0,
+            "close": 804.0,
+            "adjClose": 804.0,
+            "volume": 34472074.0
+        },
+        {
+            "date": "2024-04-18",
+            "open": 796.0,
+            "high": 810.0,
+            "low": 792.0,
+            "close": 804.0,
+            "adjClose": 804.0,
+            "volume": 43598591.0
+        },
+        {
+            "date": "2024-04-19",
+            "open": 769.0,
+            "high": 770.0,
+            "low": 746.0,
+            "close": 750.0,
+            "adjClose": 750.0,
+            "volume": 130968654.0
+        },
+        {
+            "date": "2024-04-22",
+            "open": 740.0,
+            "high": 757.0,
+            "low": 740.0,
+            "close": 742.0,
+            "adjClose": 742.0,
+            "volume": 46540798.0
+        },
+        {
+            "date": "2024-04-23",
+            "open": 761.0,
+            "high": 761.0,
+            "low": 752.0,
+            "close": 754.0,
+            "adjClose": 754.0,
+            "volume": 30423647.0
+        },
+        {
+            "date": "2024-04-24",
+            "open": 770.0,
+            "high": 785.0,
+            "low": 769.0,
+            "close": 783.0,
+            "adjClose": 783.0,
+            "volume": 39457128.0
+        },
+        {
+            "date": "2024-04-25",
+            "open": 770.0,
+            "high": 774.0,
+            "low": 765.0,
+            "close": 766.0,
+            "adjClose": 766.0,
+            "volume": 28534926.0
+        },
+        {
+            "date": "2024-04-26",
+            "open": 788.0,
+            "high": 789.0,
+            "low": 782.0,
+            "close": 782.0,
+            "adjClose": 782.0,
+            "volume": 32571247.0
+        },
+        {
+            "date": "2024-04-29",
+            "open": 790.0,
+            "high": 795.0,
+            "low": 787.0,
+            "close": 795.0,
+            "adjClose": 795.0,
+            "volume": 26765837.0
+        },
+        {
+            "date": "2024-04-30",
+            "open": 797.0,
+            "high": 802.0,
+            "low": 790.0,
+            "close": 790.0,
+            "adjClose": 790.0,
+            "volume": 39051972.0
+        },
+        {
+            "date": "2024-05-02",
+            "open": 789.0,
+            "high": 789.0,
+            "low": 772.0,
+            "close": 772.0,
+            "adjClose": 772.0,
+            "volume": 40527228.0
+        },
+        {
+            "date": "2024-05-03",
+            "open": 788.0,
+            "high": 788.0,
+            "low": 773.0,
+            "close": 780.0,
+            "adjClose": 780.0,
+            "volume": 29901556.0
+        },
+        {
+            "date": "2024-05-06",
+            "open": 791.0,
+            "high": 793.0,
+            "low": 786.0,
+            "close": 786.0,
+            "adjClose": 786.0,
+            "volume": 32599878.0
+        },
+        {
+            "date": "2024-05-07",
+            "open": 797.0,
+            "high": 800.0,
+            "low": 792.0,
+            "close": 800.0,
+            "adjClose": 800.0,
+            "volume": 33890214.0
+        },
+        {
+            "date": "2024-05-08",
+            "open": 794.0,
+            "high": 802.0,
+            "low": 792.0,
+            "close": 802.0,
+            "adjClose": 802.0,
+            "volume": 21757193.0
+        },
+        {
+            "date": "2024-05-09",
+            "open": 798.0,
+            "high": 802.0,
+            "low": 796.0,
+            "close": 796.0,
+            "adjClose": 796.0,
+            "volume": 21923999.0
+        },
+        {
+            "date": "2024-05-10",
+            "open": 803.0,
+            "high": 807.0,
+            "low": 798.0,
+            "close": 802.0,
+            "adjClose": 802.0,
+            "volume": 25101318.0
+        },
+        {
+            "date": "2024-05-13",
+            "open": 823.0,
+            "high": 825.0,
+            "low": 818.0,
+            "close": 819.0,
+            "adjClose": 819.0,
+            "volume": 34812619.0
+        },
+        {
+            "date": "2024-05-14",
+            "open": 816.0,
+            "high": 825.0,
+            "low": 811.0,
+            "close": 825.0,
+            "adjClose": 825.0,
+            "volume": 28691846.0
+        },
+        {
+            "date": "2024-05-15",
+            "open": 838.0,
+            "high": 844.0,
+            "low": 837.0,
+            "close": 839.0,
+            "adjClose": 839.0,
+            "volume": 39467772.0
+        },
+        {
+            "date": "2024-05-16",
+            "open": 852.0,
+            "high": 856.0,
+            "low": 837.0,
+            "close": 841.0,
+            "adjClose": 841.0,
+            "volume": 43927195.0
+        },
+        {
+            "date": "2024-05-17",
+            "open": 848.0,
+            "high": 848.0,
+            "low": 834.0,
+            "close": 835.0,
+            "adjClose": 835.0,
+            "volume": 26207289.0
+        },
+        {
+            "date": "2024-05-20",
+            "open": 834.0,
+            "high": 838.0,
+            "low": 822.0,
+            "close": 835.0,
+            "adjClose": 835.0,
+            "volume": 28808661.0
+        },
+        {
+            "date": "2024-05-21",
+            "open": 830.0,
+            "high": 841.0,
+            "low": 830.0,
+            "close": 841.0,
+            "adjClose": 841.0,
+            "volume": 19705349.0
+        },
+        {
+            "date": "2024-05-22",
+            "open": 845.0,
+            "high": 865.0,
+            "low": 843.0,
+            "close": 864.0,
+            "adjClose": 864.0,
+            "volume": 36628342.0
+        },
+        {
+            "date": "2024-05-23",
+            "open": 875.0,
+            "high": 877.0,
+            "low": 867.0,
+            "close": 875.0,
+            "adjClose": 875.0,
+            "volume": 37266618.0
+        },
+        {
+            "date": "2024-05-24",
+            "open": 858.0,
+            "high": 872.0,
+            "low": 858.0,
+            "close": 867.0,
+            "adjClose": 867.0,
+            "volume": 34136382.0
+        },
+        {
+            "date": "2024-05-27",
+            "open": 872.0,
+            "high": 878.0,
+            "low": 866.0,
+            "close": 869.0,
+            "adjClose": 869.0,
+            "volume": 26726954.0
+        },
+        {
+            "date": "2024-05-28",
+            "open": 867.0,
+            "high": 873.0,
+            "low": 865.0,
+            "close": 865.0,
+            "adjClose": 865.0,
+            "volume": 25329216.0
+        },
+        {
+            "date": "2024-05-29",
+            "open": 861.0,
+            "high": 868.0,
+            "low": 856.0,
+            "close": 857.0,
+            "adjClose": 857.0,
+            "volume": 33436835.0
+        },
+        {
+            "date": "2024-05-30",
+            "open": 841.0,
+            "high": 848.0,
+            "low": 838.0,
+            "close": 838.0,
+            "adjClose": 838.0,
+            "volume": 38065102.0
+        },
+        {
+            "date": "2024-05-31",
+            "open": 838.0,
+            "high": 846.0,
+            "low": 821.0,
+            "close": 821.0,
+            "adjClose": 821.0,
+            "volume": 77438401.0
+        },
+        {
+            "date": "2024-06-03",
+            "open": 839.0,
+            "high": 853.0,
+            "low": 837.0,
+            "close": 846.0,
+            "adjClose": 846.0,
+            "volume": 28345488.0
+        },
+        {
+            "date": "2024-06-04",
+            "open": 844.0,
+            "high": 851.0,
+            "low": 837.0,
+            "close": 839.0,
+            "adjClose": 839.0,
+            "volume": 28223635.0
+        },
+        {
+            "date": "2024-06-05",
+            "open": 841.0,
+            "high": 857.0,
+            "low": 835.0,
+            "close": 854.0,
+            "adjClose": 854.0,
+            "volume": 31975446.0
+        },
+        {
+            "date": "2024-06-06",
+            "open": 893.0,
+            "high": 899.0,
+            "low": 885.0,
+            "close": 894.0,
+            "adjClose": 894.0,
+            "volume": 62925136.0
+        },
+        {
+            "date": "2024-06-07",
+            "open": 885.0,
+            "high": 888.0,
+            "low": 879.0,
+            "close": 879.0,
+            "adjClose": 879.0,
+            "volume": 41075399.0
+        },
+        {
+            "date": "2024-06-11",
+            "open": null,
+            "high": null,
+            "low": null,
+            "close": null,
+            "adjClose": null,
+            "volume": null
+        },
+        {
+            "date": "2024-06-12",
+            "open": 888.0,
+            "high": 912.0,
+            "low": 888.0,
+            "close": 908.0,
+            "adjClose": 908.0,
+            "volume": 33960608.0
+        }
+        ];
+
+        data = data.map(d => {
+            d.date = new Date(d.date);
+            return d;
+        });
+
+
+        const margin = { top: 20, right: 50, bottom: 30, left: 50 },
+            width = +window.innerWidth - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        const svg = d3.select(".chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .style("background-color", "black")
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // 設置X軸比例尺，範圍僅限於數據內
+        const x = d3.scaleTime()
+            .domain([d3.min(data, d => d.date), d3.max(data, d => d.date)])
+            .range([0, width]);
+
+        // 設置Y軸比例尺
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.close)])
+            .range([height, 0]);
+
+        // 創建X軸
+        const xAxis = d3.axisBottom(x)
+            // .ticks(d3.timeYear.every(2))
+            .tickFormat(d3.timeFormat("%Y/%m/%d"))
+            .tickSize(0)  // 設置刻度線長度為0，去除多餘的線條
+            .tickPadding(10);  // 設置刻度標籤與軸線之間的距離
+
+        // 創建Y軸
+        const yAxis = d3.axisLeft(y).tickSize(0).tickPadding(10); // 設置刻度線長度為0，去除多餘的線條
+
+        // 添加X軸到SVG
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(xAxis)
+            .selectAll("text")
+            .style("fill", "white");
+
+        // 添加Y軸到SVG
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .selectAll("text")
+            .style("fill", "white");
+
+
+
+        // 繪製X軸的網格線
+        svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x)
+                // .ticks(d3.timeYear.every(2))
+                .tickSize(-height)
+                .tickFormat("")
+            );
+
+        // 繪製Y軸的網格線
+        svg.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y)
+                .tickSize(-width)
+                .tickFormat("")
+            );
+
+        // 繪製右側虛線
+        svg.append("line")
+            .attr("x1", width)
+            .attr("y1", 0)
+            .attr("x2", width)
+            .attr("y2", height)
+            .attr("stroke", "grey")
+            .attr("stroke-dasharray", "2,2");
+
+        // 繪製折線
+        const line = d3.line()
+            .x(d => x(d.date))
+            .y(d => y(d.close));
+
+        svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", line);
+
+        // 設置tooltip
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // 添加一條垂直線，隨鼠標移動
+        const hoverLine = svg.append("line")
+            .attr("class", "hover-line")
+            .style("opacity", 0);
+
+
+        svg.append("rect")
+            .attr("width", width)
+            .attr("height", height)
+            .style("fill", "none")
+            .style("pointer-events", "all")
+            .on("mousemove", function (event) {
+                
+                const mouse = d3.pointer(event);
+                console.log('mouse: ', mouse);
+                const mouseDate = x.invert(mouse[0]);
+                const bisect = d3.bisector(d => d.date).left;
+                const index = bisect(data, mouseDate);
+                const d0 = data[index - 1];
+                const d1 = data[index];
+                const d = mouseDate - d0.date > d1.date - mouseDate ? d1 : d0;
+
+                tooltip.transition().duration(200).style("opacity", .9);
+                tooltip.html(`${d.date.toLocaleDateString()}<br>價格: ${d.close}`)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+
+                hoverLine.attr("x1", x(d.date))
+                    .attr("y1", 0)
+                    .attr("x2", x(d.date))
+                    .attr("y2", height)
+                    .style("opacity", 1);
+            })
+            .on("mouseout", function () {
+                tooltip.transition().duration(500).style("opacity", 0);
+                hoverLine.style("opacity", 0);
+            });
+
+        // 添加初始價格的白色水平線
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("y1", y(data[0].close))
+            .attr("x2", width)
+            .attr("y2", y(data[0].close))
+            .attr("stroke", "white")
+            .attr("stroke-dasharray", "2,2");
+
+        // 添加初始價格標籤
+        svg.append("text")
+            .attr("x", 5)
+            .attr("y", y(data[0].close) - 10)
+            .attr("fill", "green")
+            .text(`${data[0].close}`);
+
+        // 添加初始日期標籤
+        // svg.append("text")
+        //     .attr("x", x(data[0].date) + 5)
+        //     .attr("y", height - 5)
+        //     .attr("fill", "white")
+        //     .text(d3.timeFormat("%Y/%m/%d")(data[0].date));
+
+    </script>
+</body>
+
+</html>
