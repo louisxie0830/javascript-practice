@@ -62,13 +62,20 @@
         stroke-dasharray: 2, 2;
         pointer-events: none;
     }
+
+    .hover-line-horizontal {
+        stroke: white;
+        stroke-width: 1px;
+        stroke-dasharray: 2, 2;
+        pointer-events: none;
+    }
+
     .card {
         display: flex;
         align-items: center;
         padding: 10px;
         background-color: #111;
         border-radius: 5px
-
     }
 
     .card-name {
@@ -95,7 +102,7 @@
 <body>
     <div class="container">
         <div class="card">
-            <div class="card-name">2330TW-股價走勢</div>    
+            <div class="card-name">2330TW-股價走勢</div>
             <div class="card-grid__ctrl">
                 <div class="nav nav-tabs">
                     <button
@@ -129,7 +136,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="chart"></div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -2428,9 +2435,14 @@
             .attr("class", "tooltip")
             .style("opacity", 0);
 
+
         // 添加一條垂直線，隨鼠標移動
         const hoverLine = svg.append("line")
             .attr("class", "hover-line")
+            .style("opacity", 0);
+
+        const hoverLineHorizontal = svg.append("line")
+            .attr("class", "hover-line-horizontal")
             .style("opacity", 0);
 
 
@@ -2440,7 +2452,7 @@
             .style("fill", "none")
             .style("pointer-events", "all")
             .on("mousemove", function (event) {
-                
+
                 const mouse = d3.pointer(event);
                 console.log('mouse: ', mouse);
                 const mouseDate = x.invert(mouse[0]);
@@ -2449,6 +2461,9 @@
                 const d0 = data[index - 1];
                 const d1 = data[index];
                 const d = mouseDate - d0.date > d1.date - mouseDate ? d1 : d0;
+
+                const mouseValue = y.invert(mouse[1]);
+                console.log('mouseValue: ', mouseValue);
 
                 tooltip.transition().duration(200).style("opacity", .9);
                 tooltip.html(`${d.date.toLocaleDateString()}<br>價格: ${d.close}`)
@@ -2460,10 +2475,18 @@
                     .attr("x2", x(d.date))
                     .attr("y2", height)
                     .style("opacity", 1);
+
+                hoverLineHorizontal.attr("x1", 0)
+                    .attr("y1", y(mouseValue))
+                    .attr("x2", width)
+                    .attr("y2", y(mouseValue))
+                    .style("opacity", 1);
+
             })
             .on("mouseout", function () {
                 tooltip.transition().duration(500).style("opacity", 0);
                 hoverLine.style("opacity", 0);
+                hoverLineHorizontal.style("opacity", 0);
             });
 
         // 添加初始價格的白色水平線
