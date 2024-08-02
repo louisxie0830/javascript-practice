@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <title>Typing Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .typewriter-container {
+            font-size: 24px;
+            border-right: 2px solid black;
+            white-space: nowrap;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: black;
+            }
+        }
+
+        .typewriter-container {
+            animation: blink 1s step-end infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="typewriter-container">
+        <div id="typewriter"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const text = 'Hello, this is a typing effect demo!';
+            const typewriterElement = document.getElementById('typewriter');
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    typewriterElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, 100);
+                }
+            }
+
+            type();
+        });
+    </script>
+</body>
+
+</html>
