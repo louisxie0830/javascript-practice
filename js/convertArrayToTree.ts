@@ -62,7 +62,7 @@ type TreeNode<
  * @param {C} [children='children'] - 子節點屬性名
  * @returns {Array<TreeNode<T, P, PP, C>>} - 轉換後的樹結構數組
  */
-export function ｀<
+export function convertArrayToTree<
   T,
   P extends string = 'id',
   PP extends string = 'parentId',
