@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Button Hover Effect</title>
+    <style>
+        :root {
+            --color-black: #000;
+            --color-white: #fff;
+            --color-white-shade: #e6e6e6;
+        }
+        .btns {
+            display: flex;
+            column-gap: 2rem;
+            background-color: var(--color-white-shade);
+            margin: auto;
+            width: 300px;
+        }
+
+        .btn {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            cursor: pointer;
+            transition:
+                scale 0.25s ease-in,
+                opacity 0.25s ease-in,
+                filter 0.25s ease-in;
+        }
+
+        .btn:hover {
+            scale: 1.2;
+        }
+
+        .btns:has(.btn:hover) .btn:not(:hover) {
+            scale: 0.8;
+            opacity: 0.8;
+            filter: blur(4px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btns">
+        <button class="btn">Hover me!</button>
+        <button class="btn">Hover me!</button>
+        <button class="btn">Hover me!</button>
+    </div>
+</body>
+
+</html>
