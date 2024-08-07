@@ -3,96 +3,167 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index of HTML Examples</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <title>JavaScript Examples</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             background-color: #f4f4f4;
+        }
+
+        .container {
+            margin: 40px 20px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
         h1 {
             text-align: center;
+            color: #333;
+            margin-bottom: 30px;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
         }
 
-        li {
-            margin: 10px 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
+        .grid-item {
+            background-color: #007bff;
+            color: white;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .grid-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>HTML Examples</h1>
-        <ul>
-            <li><a href="Ajax.html">Ajax.html</a></li>
-            <li><a href="ApplyBindCall.html">ApplyBindCall.html</a></li>
-            <li><a href="CheckBrowser.html">CheckBrowser.html</a></li>
-            <li><a href="CheckIE.html">CheckIE.html</a></li>
-            <li><a href="CheckTwID.html">CheckTwID.html</a></li>
-            <li><a href="CheckboxAsRadioButton.html">CheckboxAsRadioButton.html</a></li>
-            <li><a href="ClassList.html">ClassList.html</a></li>
-            <li><a href="CreateDocumentFragment.html">CreateDocumentFragment.html</a></li>
-            <li><a href="CssScrollIndicator.html">CssScrollIndicator.html</a></li>
-            <li><a href="CustomizeVideo.html">CustomizeVideo.html</a></li>
-            <li><a href="Darg.html">Darg.html</a></li>
-            <li><a href="DropAndRefresh.html">DropAndRefresh.html</a></li>
-            <li><a href="FileUpload.html">FileUpload.html</a></li>
-            <li><a href="Fireworks.html">Fireworks.html</a></li>
-            <li><a href="FontSizeChrome.html">FontSizeChrome.html</a></li>
-            <li><a href="FormatDate.html">FormatDate.html</a></li>
-            <li><a href="GetUserIp.html">GetUserIp.html</a></li>
-            <li><a href="IOSInputFocus.html">IOSInputFocus.html</a></li>
-            <li><a href="IOSInputKeyboard.html">IOSInputKeyboard.html</a></li>
-            <li><a href="InfiniteScroll.html">InfiniteScroll.html</a></li>
-            <li><a href="LazyloadingImg.html">LazyloadingImg.html</a></li>
-            <li><a href="Model.html">Model.html</a></li>
-            <li><a href="NgOptionDisable.html">NgOptionDisable.html</a></li>
-            <li><a href="Notification.html">Notification.html</a></li>
-            <li><a href="Observer.html">Observer.html</a></li>
-            <li><a href="Pulltorefresh.html">Pulltorefresh.html</a></li>
-            <li><a href="RandomColor.html">RandomColor.html</a></li>
-            <li><a href="RememberUser.html">RememberUser.html</a></li>
-            <li><a href="Ruler.html">Ruler.html</a></li>
-            <li><a href="ScrollBanner.html">ScrollBanner.html</a></li>
-            <li><a href="SlideShow.html">SlideShow.html</a></li>
-            <li><a href="Stack.html">Stack.html</a></li>
-            <li><a href="TableGetRowInfo.html">TableGetRowInfo.html</a></li>
-            <li><a href="TableOfContent.html">TableOfContent.html</a></li>
-            <li><a href="ValidURL.html">ValidURL.html</a></li>
-            <li><a href="ValidationForm.html">ValidationForm.html</a></li>
-            <li><a href="chatRoom.html">chatRoom.html</a></li>
-            <li><a href="openDefaultBroserAtLine.html">openDefaultBroserAtLine.html</a></li>
-            <li><a href="requestAnimationFrame.html">requestAnimationFrame.html</a></li>
-            <li><a href="2330-TW.html">2330-TW.html</a></li>
-            <li><a href="Clipboard.html">Clipboard.html</a></li>
-            <li><a href="TypingEffect.html">TypingEffect.html</a></li>
-            <li><a href="ToggleButton.html">ToggleButton.html</a></li>
-            <li><a href="ButtonHoverEffect.html">ButtonHoverEffect.html</a></li>
-        </ul>
+        <h1>JavaScript Examples</h1>
+        <div class="grid-container">
+            <div class="grid-item"><a href="Ajax.html">Ajax.html</a></div>
+            <div class="grid-item">
+                <a href="ApplyBindCall.html">ApplyBindCall.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="CheckBrowser.html">CheckBrowser.html</a>
+            </div>
+            <div class="grid-item"><a href="CheckIE.html">CheckIE.html</a></div>
+            <div class="grid-item"><a href="CheckTwID.html">CheckTwID.html</a></div>
+            <div class="grid-item">
+                <a href="CheckboxAsRadioButton.html">CheckboxAsRadioButton.html</a>
+            </div>
+            <div class="grid-item"><a href="ClassList.html">ClassList.html</a></div>
+            <div class="grid-item">
+                <a href="CreateDocumentFragment.html">CreateDocumentFragment.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="CssScrollIndicator.html">CssScrollIndicator.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="CustomizeVideo.html">CustomizeVideo.html</a>
+            </div>
+            <div class="grid-item"><a href="Darg.html">Darg.html</a></div>
+            <div class="grid-item">
+                <a href="DropAndRefresh.html">DropAndRefresh.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="FileUpload.html">FileUpload.html</a>
+            </div>
+            <div class="grid-item"><a href="Fireworks.html">Fireworks.html</a></div>
+            <div class="grid-item">
+                <a href="FontSizeChrome.html">FontSizeChrome.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="FormatDate.html">FormatDate.html</a>
+            </div>
+            <div class="grid-item"><a href="GetUserIp.html">GetUserIp.html</a></div>
+            <div class="grid-item">
+                <a href="IOSInputFocus.html">IOSInputFocus.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="IOSInputKeyboard.html">IOSInputKeyboard.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="InfiniteScroll.html">InfiniteScroll.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="LazyloadingImg.html">LazyloadingImg.html</a>
+            </div>
+            <div class="grid-item"><a href="Model.html">Model.html</a></div>
+            <div class="grid-item">
+                <a href="NgOptionDisable.html">NgOptionDisable.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="Notification.html">Notification.html</a>
+            </div>
+            <div class="grid-item"><a href="Observer.html">Observer.html</a></div>
+            <div class="grid-item">
+                <a href="Pulltorefresh.html">Pulltorefresh.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="RandomColor.html">RandomColor.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="RememberUser.html">RememberUser.html</a>
+            </div>
+            <div class="grid-item"><a href="Ruler.html">Ruler.html</a></div>
+            <div class="grid-item">
+                <a href="ScrollBanner.html">ScrollBanner.html</a>
+            </div>
+            <div class="grid-item"><a href="SlideShow.html">SlideShow.html</a></div>
+            <div class="grid-item"><a href="Stack.html">Stack.html</a></div>
+            <div class="grid-item">
+                <a href="TableGetRowInfo.html">TableGetRowInfo.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="TableOfContent.html">TableOfContent.html</a>
+            </div>
+            <div class="grid-item"><a href="ValidURL.html">ValidURL.html</a></div>
+            <div class="grid-item">
+                <a href="ValidationForm.html">ValidationForm.html</a>
+            </div>
+            <div class="grid-item"><a href="chatRoom.html">chatRoom.html</a></div>
+            <div class="grid-item">
+                <a href="openDefaultBroserAtLine.html">openDefaultBroserAtLine.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="requestAnimationFrame.html">requestAnimationFrame.html</a>
+            </div>
+            <div class="grid-item"><a href="2330-TW.html">2330-TW.html</a></div>
+            <div class="grid-item"><a href="Clipboard.html">Clipboard.html</a></div>
+            <div class="grid-item">
+                <a href="TypingEffect.html">TypingEffect.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="ToggleButton.html">ToggleButton.html</a>
+            </div>
+            <div class="grid-item">
+                <a href="ButtonHoverEffect.html">ButtonHoverEffect.html</a>
+            </div>
+        </div>
     </div>
 </body>
 
