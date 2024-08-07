@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Shark Warp</title>
+    <style>
+        html,
+        body {
+            font-family: -apple-system, "BlinkMacSystemFont", sans-serif;
+            margin: 0;
+            height: 100%;
+            display: flex;
+            justify-content: safe center;
+            flex-direction: column;
+            align-items: center;
+            background: #000;
+            gap: 20px;
+            padding: 50px;
+        }
+        
+        h1 {
+            font-size: 60px;
+            font-family: "RZGFDHDHJ";
+            font-weight: normal;
+            color: #9747FF;
+            margin: 0;
+        }
+
+        .shark-txt {
+            -webkit-text-fill-color: transparent;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 60%) -100%/50% no-repeat currentColor;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: shark-txt 2s infinite;
+        }
+
+        @keyframes shark-txt {
+            to {
+                background-position: 200%;
+            }
+        }
+        @keyframes shark-wrap {
+            to {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="shark-txt">Shark Warp</h1>
+</body>
+
+</html>
