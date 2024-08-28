@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebShareAPI</title>
+  </head>
+  <body>
+    <button type="button">click</button>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('button').addEventListener('click', () => {
+          const data = {
+            title: 'Share Title',
+            text: 'Share Text',
+            url: 'https://developers.google.com/web/',
+          }
+          
+          if(navigator.canShare && navigator.canShare(data)) {
+            navigator.share(data);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
