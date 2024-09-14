@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autofill OTP</title>
+</head>
+<body>
+  <input id="otp" type="text" inputmode="numeric" pattern="\d{6}" required autocomplete="one-time-code" />
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const opt = document.querySelector('#otp');
+      if('OTPCredential' in window) {
+        navigator.credentials.get({
+          otp: {
+            transport: ['sms']
+          }
+        }).then(otp => {
+          opt.value = otp;
+        }).catch(err => {
+          console.log('err: ', err);
+        })
+      }
+    });
+  </script>
+</body>
+</html>
