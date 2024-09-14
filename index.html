@@ -8,6 +8,9 @@
         content="width=device-width, initial-scale=1.0"
     />
     <title>JavaScript Examples</title>
+    <meta name="description" content="This is a JavaScript practice website by Louis Xie">
+    <meta name="keywords" content="JavaScript, practice, coding, web development">
+    <meta name="robots" content="index, follow">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,10 +60,19 @@
             transform: scale(1.05);
         }
     </style>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Louis Xie's JavaScript Practice Site",
+            "url": "https://louisxie0830.github.io/javascript-practice/"
+        }
+    </script>
+
 </head>
 
 <body>
-    <div class="container">
+    <main class="container">
         <h1>JavaScript Examples</h1>
         <div class="grid-container">
             <div class="grid-item"><a href="Ajax.html">Ajax.html</a></div>
@@ -173,7 +185,7 @@
                 <a href="AutofillOTP.html">AutofillOTP.html</a>
             </div>
         </div>
-    </div>
+    </main>
 </body>
 
 </html>
