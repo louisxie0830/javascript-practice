@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Formatting</title>
+</head>
+<body>
+  <script>
+    const amount = 109999.37;
+    const formatAsCurrency = (amount, locale, currencyCode) => {
+      const formatter = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currencyCode,
+        minimumFractionDigits: 2
+      });
+      return formatter.format(amount);
+    };
+    console.log(formatAsCurrency(amount, 'en-US', 'USD'));
+  </script>
+</body>
+</html>
